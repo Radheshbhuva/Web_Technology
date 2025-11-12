@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marwadi University</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .navbar {
+      background-color: #212529;
+    }
+
+    .navbar-brand,
+    .nav-link {
+      color: #fff !important;
+    }
+
+    footer {
+      background-color: #212529;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .gallery-img,
+    .recruiter-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-img:hover,
+    .recruiter-img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">Marwadi University</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#vision">Vision</a></li>
+          <li class="nav-item"><a class="nav-link" href="#mission">Mission</a></li>
+          <li class="nav-item"><a class="nav-link" href="#pso">PSOs</a></li>
+          <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#recruiters">Recruiters</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section id="vision" class="py-5 text-center">
+    <div class="container">
+      <h3 class="mb-4">Vision</h3>
+      <p>To cultivate an environment that empowers individuals, organizations, and societies through education,
+        innovative ideas, impactful research, and transformative training.</p>
+    </div>
+  </section>
+
+  <section id="mission" class="bg-light py-5">
+    <div class="container">
+      <h3 class="text-center mb-4">Mission</h3>
+      <ul class="list-unstyled">
+        <li>To provide quality education that fosters social transformation, cultivates leadership through innovation
+          and entrepreneurship, advances research culture, promotes universal consciousness, and drives growth through
+          industrial and international partnerships.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="pso" class="py-5 text-center">
+    <div class="container">
+      <h3 class="mb-4">Program Specific Outcomes (PSOs)</h3>
+      <p><strong>PSO1:</strong> Demonstrate skills and competence in the analysis, design and development of
+        computer-based systems addressing industrial and social issues.</p>
+      <p><strong>PSO2:</strong> Tackle future technological challenges in areas like Security, AI, ML, etc.</p>
+    </div>
+  </section>
+
+  <section id="courses" class="bg-light py-5 text-center">
+    <div class="container">
+      <h3 class="mb-4">Courses Offered</h3>
+      <div class="row justify-content-center g-3">
+        <div class="col-md-2"><button class="btn btn-outline-primary w-100">B.Tech - CSE</button></div>
+        <div class="col-md-2"><button class="btn btn-outline-primary w-100">B.Tech - AI/ML</button></div>
+        <div class="col-md-2"><button class="btn btn-outline-primary w-100">M.Tech - Cyber Security</button></div>
+        <div class="col-md-2"><button class="btn btn-outline-primary w-100">Ph.D - Computer Engineering</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="py-5 text-center">
+    <div class="container">
+      <h3 class="mb-4">Image Gallery of Events</h3>
+      <div class="row g-4">
+        <div class="col-sm-6 col-md-3">
+          <img src="MU1.jpeg" alt="Event 1" class="gallery-img">
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <img src="MU2.jpeg" alt="Event 2" class="gallery-img">
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <img src="MU3.jpeg" alt="Event 3" class="gallery-img">
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <img src="MU4.jpeg" alt="Event 4" class="gallery-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="recruiters" class="bg-light py-5 text-center">
+    <div class="container">
+      <h3 class="mb-4">Top Recruiters</h3>
+      <div class="row g-4 align-items-center">
+        <div class="col-sm-6 col-md-3">
+          <img src="Recruiter1.jpeg" alt="Company 1" class="recruiter-img">
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <img src="Recruiter5.jpeg" alt="Company 2" class="recruiter-img">
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <img src="Recruiter3.jpeg" alt="Company 3" class="recruiter-img">
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <img src="Recruiter4.jpeg" alt="Company 4" class="recruiter-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Marwadi university. All rights reserved.</p>
+    <p>@ Created by Radhesh Bhuva</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
