@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management - Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary-blue);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent-gold);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .action-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #b8975e;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-color: #ddd;
+            border-bottom-color: white;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .table-container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .table-container h2 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-confirmed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-completed {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .btn-action {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        
+        .btn-edit {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-view {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .form-container h2 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--primary-blue);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(198, 170, 118, 0.25);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .event-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .event-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        .event-card-content {
+            flex: 1;
+        }
+        
+        .event-card-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+        
+        .event-card-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .event-card-date {
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+        
+        .event-card-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .venue-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .venue-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        .venue-card-content {
+            flex: 1;
+        }
+        
+        .venue-card-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+        
+        .venue-card-capacity {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .venue-card-price {
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+        
+        .venue-card-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .booking-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .booking-id {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+        
+        .booking-status {
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .calendar-container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #ddd;
+        }
+        
+        .calendar-day {
+            background-color: white;
+            padding: 10px;
+            min-height: 100px;
+        }
+        
+        .calendar-day.header {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            text-align: center;
+            min-height: auto;
+        }
+        
+        .calendar-date {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .calendar-event {
+            background-color: #e3f2fd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+            cursor: pointer;
+        }
+        
+        .toggle-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .toggle-sidebar {
+                display: block;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .event-card, .venue-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .event-card img, .venue-card img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .calendar-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-hotel"></i> Admin Panel</h3>
+                <p>Le Méridien Ahmedabad</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="room-management.html"><i class="fas fa-bed"></i> Room Management</a></li>
+                <li><a href="dining-management.html"><i class="fas fa-utensils"></i> Dining Management</a></li>
+                <li><a href="spa-management.html"><i class="fas fa-spa"></i> Spa Management</a></li>
+                <li><a href="event_management.html" class="active"><i class="fas fa-calendar-alt"></i> Event Management</a></li>
+                <li><a href="gallery_management.html"><i class="fas fa-image"></i> Gallery Management</a></li>
+                <li><a href="offers_management.html"><i class="fas fa-tags"></i> Offers Management</a></li>
+                <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Back to Website</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <button class="toggle-sidebar" id="toggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Event Management</h1>
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin User">
+                    <div>
+                        <div>Admin User</div>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="events">Events</div>
+                <div class="tab" data-tab="venues">Venues</div>
+                <div class="tab" data-tab="bookings">Bookings</div>
+                <div class="tab" data-tab="calendar">Calendar</div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-primary" id="addEventBtn">
+                    <i class="fas fa-plus"></i> Add Event
+                </button>
+                <button class="btn-primary" id="addVenueBtn">
+                    <i class="fas fa-map-marker-alt"></i> Add Venue
+                </button>
+                <button class="btn-secondary" id="exportDataBtn">
+                    <i class="fas fa-file-export"></i> Export Data
+                </button>
+                <button class="btn-secondary" id="viewReportsBtn">
+                    <i class="fas fa-chart-bar"></i> View Reports
+                </button>
+            </div>
+
+            <div class="tab-content active" id="events-tab">
+                <div class="table-container">
+                    <h2>Events</h2>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="eventFilter">Filter by Type:</label>
+                        <select class="form-control" id="eventFilter" style="width: 300px;">
+                            <option value="all">All Event Types</option>
+                            <option value="Wedding">Wedding</option>
+                            <option value="Conference">Conference</option>
+                            <option value="Meeting">Meeting</option>
+                            <option value="Social">Social Event</option>
+                            <option value="Corporate">Corporate Event</option>
+                        </select>
+                    </div>
+                    
+                    <div id="eventsContainer">
+                        <div class="event-card">
+                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Sharma Wedding">
+                            <div class="event-card-content">
+                                <div class="event-card-title">Sharma Wedding Reception</div>
+                                <div class="event-card-details">Grand wedding reception for 300 guests with full catering and decoration</div>
+                                <div class="event-card-date">October 28, 2023 • 6:00 PM - 11:00 PM</div>
+                                <div><small>Grand Ballroom • Wedding • 300 guests</small></div>
+                            </div>
+                            <div class="event-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Details</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="event-card">
+                            <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Tech Conference">
+                            <div class="event-card-content">
+                                <div class="event-card-title">Annual Tech Conference</div>
+                                <div class="event-card-details">Technology conference with keynote speakers and breakout sessions</div>
+                                <div class="event-card-date">November 15, 2023 • 9:00 AM - 5:00 PM</div>
+                                <div><small>Conference Center • Conference • 150 attendees</small></div>
+                            </div>
+                            <div class="event-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Details</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="event-card">
+                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Corporate Meeting">
+                            <div class="event-card-content">
+                                <div class="event-card-title">Quarterly Board Meeting</div>
+                                <div class="event-card-details">Executive board meeting with presentation facilities and catering</div>
+                                <div class="event-card-date">October 20, 2023 • 10:00 AM - 2:00 PM</div>
+                                <div><small>Executive Boardroom • Meeting • 24 attendees</small></div>
+                            </div>
+                            <div class="event-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Details</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container" id="eventFormContainer" style="display: none;">
+                    <h2 id="eventFormTitle">Add New Event</h2>
+                    <form id="eventForm">
+                        <input type="hidden" id="eventId">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="eventName">Event Name</label>
+                                <input type="text" class="form-control" id="eventName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventType">Event Type</label>
+                                <select class="form-control" id="eventType" required>
+                                    <option value="">Select Event Type</option>
+                                    <option value="Wedding">Wedding</option>
+                                    <option value="Conference">Conference</option>
+                                    <option value="Meeting">Meeting</option>
+                                    <option value="Social">Social Event</option>
+                                    <option value="Corporate">Corporate Event</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="eventDate">Event Date</label>
+                                <input type="date" class="form-control" id="eventDate" required>
+                            </div>
+                            <div class="form-row" style="flex: 1; gap: 10px;">
+                                <div class="form-group" style="flex: 1;">
+                                    <label for="startTime">Start Time</label>
+                                    <input type="time" class="form-control" id="startTime" required>
+                                </div>
+                                <div class="form-group" style="flex: 1;">
+                                    <label for="endTime">End Time</label>
+                                    <input type="time" class="form-control" id="endTime" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="eventVenue">Venue</label>
+                                <select class="form-control" id="eventVenue" required>
+                                    <option value="">Select Venue</option>
+                                    <option value="Grand Ballroom">Grand Ballroom</option>
+                                    <option value="Conference Center">Conference Center</option>
+                                    <option value="Executive Boardroom">Executive Boardroom</option>
+                                    <option value="Garden Pavilion">Garden Pavilion</option>
+                                    <option value="Poolside Venue">Poolside Venue</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="expectedGuests">Expected Guests</label>
+                                <input type="number" class="form-control" id="expectedGuests" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="eventDescription">Event Description</label>
+                            <textarea class="form-control" id="eventDescription" rows="3" placeholder="Enter event description"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="specialRequirements">Special Requirements</label>
+                            <textarea class="form-control" id="specialRequirements" rows="2" placeholder="Any special requirements or notes"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="eventImage">Event Image</label>
+                            <input type="file" class="form-control" id="eventImage">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Save Event</button>
+                        <button type="button" class="btn-secondary" id="cancelEventForm">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-content" id="venues-tab">
+                <div class="table-container">
+                    <h2>Event Venues</h2>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="venueFilter">Filter by Capacity:</label>
+                        <select class="form-control" id="venueFilter" style="width: 300px;">
+                            <option value="all">All Capacities</option>
+                            <option value="small">Small (1-50)</option>
+                            <option value="medium">Medium (51-150)</option>
+                            <option value="large">Large (151-500)</option>
+                        </select>
+                    </div>
+                    
+                    <div id="venuesContainer">
+                        <div class="venue-card">
+                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Grand Ballroom">
+                            <div class="venue-card-content">
+                                <div class="venue-card-title">Grand Ballroom</div>
+                                <div class="venue-card-capacity">Capacity: 500 guests • Size: 650 m²</div>
+                                <div class="venue-card-price">₹ 150,000 (Minimum Spend)</div>
+                                <div><small>Features: Stage, Dance Floor, HD Projection, Full Catering Kitchen</small></div>
+                            </div>
+                            <div class="venue-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Availability</button>
+                            </div>
+                        </div>
+                        
+                        <div class="venue-card">
+                            <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Conference Center">
+                            <div class="venue-card-content">
+                                <div class="venue-card-title">Conference Center</div>
+                                <div class="venue-card-capacity">Capacity: 150 guests • Size: 300 m²</div>
+                                <div class="venue-card-price">₹ 75,000 (Full Day)</div>
+                                <div><small>Features: Modular Setup, AV Equipment, High-Speed WiFi, Breakout Areas</small></div>
+                            </div>
+                            <div class="venue-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Availability</button>
+                            </div>
+                        </div>
+                        
+                        <div class="venue-card">
+                            <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Garden Pavilion">
+                            <div class="venue-card-content">
+                                <div class="venue-card-title">Garden Pavilion</div>
+                                <div class="venue-card-capacity">Capacity: 200 guests • Outdoor</div>
+                                <div class="venue-card-price">₹ 80,000 (Venue Only)</div>
+                                <div><small>Features: Outdoor Setting, Garden Views, Weather Backup, Catering Options</small></div>
+                            </div>
+                            <div class="venue-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Availability</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container" id="venueFormContainer" style="display: none;">
+                    <h2 id="venueFormTitle">Add New Venue</h2>
+                    <form id="venueForm">
+                        <input type="hidden" id="venueId">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="venueName">Venue Name</label>
+                                <input type="text" class="form-control" id="venueName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="venueType">Venue Type</label>
+                                <select class="form-control" id="venueType" required>
+                                    <option value="">Select Venue Type</option>
+                                    <option value="Ballroom">Ballroom</option>
+                                    <option value="Conference">Conference Room</option>
+                                    <option value="Outdoor">Outdoor Venue</option>
+                                    <option value="Boardroom">Boardroom</option>
+                                    <option value="Banquet">Banquet Hall</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="venueCapacity">Capacity</label>
+                                <input type="number" class="form-control" id="venueCapacity" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="venueSize">Size (m²)</label>
+                                <input type="number" class="form-control" id="venueSize" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="venuePrice">Price</label>
+                                <input type="number" class="form-control" id="venuePrice" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="priceType">Price Type</label>
+                                <select class="form-control" id="priceType" required>
+                                    <option value="Minimum Spend">Minimum Spend</option>
+                                    <option value="Full Day">Full Day</option>
+                                    <option value="Half Day">Half Day</option>
+                                    <option value="Venue Only">Venue Only</option>
+                                    <option value="Per Person">Per Person</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="venueDescription">Venue Description</label>
+                            <textarea class="form-control" id="venueDescription" rows="3" placeholder="Enter venue description"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="venueFeatures">Key Features (comma separated)</label>
+                            <input type="text" class="form-control" id="venueFeatures" placeholder="e.g., Stage, AV Equipment, Catering Kitchen">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="venueImage">Venue Image</label>
+                            <input type="file" class="form-control" id="venueImage">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Save Venue</button>
+                        <button type="button" class="btn-secondary" id="cancelVenueForm">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-content" id="bookings-tab">
+                <div class="table-container">
+                    <h2>Event Bookings</h2>
+                    <div class="form-row" style="margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label for="bookingDate">Filter by Date:</label>
+                            <input type="date" class="form-control" id="bookingDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingStatus">Filter by Status:</label>
+                            <select class="form-control" id="bookingStatus">
+                                <option value="all">All Statuses</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="pending">Pending</option>
+                                <option value="cancelled">Cancelled</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <table id="bookingsTable">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Event Name</th>
+                                <th>Client</th>
+                                <th>Date</th>
+                                <th>Venue</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#EB2023101501</td>
+                                <td>Sharma Wedding Reception</td>
+                                <td>Rajesh Sharma</td>
+                                <td>Oct 28, 2023</td>
+                                <td>Grand Ballroom</td>
+                                <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#EB2023101502</td>
+                                <td>Annual Tech Conference</td>
+                                <td>Tech Solutions Inc.</td>
+                                <td>Nov 15, 2023</td>
+                                <td>Conference Center</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#EB2023101503</td>
+                                <td>Quarterly Board Meeting</td>
+                                <td>Global Corp Ltd.</td>
+                                <td>Oct 20, 2023</td>
+                                <td>Executive Boardroom</td>
+                                <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#EB2023101504</td>
+                                <td>Birthday Celebration</td>
+                                <td>Priya Patel</td>
+                                <td>Nov 5, 2023</td>
+                                <td>Garden Pavilion</td>
+                                <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-content" id="calendar-tab">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <h2>October 2023</h2>
+                        <div class="calendar-nav">
+                            <button class="btn-secondary"><i class="fas fa-chevron-left"></i> Previous</button>
+                                                            <button class="btn-secondary">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-day header">Sun</div>
+                        <div class="calendar-day header">Mon</div>
+                        <div class="calendar-day header">Tue</div>
+                        <div class="calendar-day header">Wed</div>
+                        <div class="calendar-day header">Thu</div>
+                        <div class="calendar-day header">Fri</div>
+                        <div class="calendar-day header">Sat</div>
+                        
+                        <div class="calendar-day">
+                            <div class="calendar-date">1</div>
+                            <div class="calendar-event">Sharma Wedding</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">2</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">3</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">4</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">5</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">6</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">7</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">8</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">9</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">10</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">11</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">12</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">13</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">14</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">15</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">16</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">17</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">18</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">19</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">20</div>
+                            <div class="calendar-event">Board Meeting</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">21</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">22</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">23</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">24</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">25</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">26</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">27</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">28</div>
+                            <div class="calendar-event">Wedding Reception</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">29</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">30</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-date">31</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <h2>Upcoming Events</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Date & Time</th>
+                                <th>Venue</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sharma Wedding Reception</td>
+                                <td>Oct 28, 2023 • 6:00 PM</td>
+                                <td>Grand Ballroom</td>
+                                <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Annual Tech Conference</td>
+                                <td>Nov 15, 2023 • 9:00 AM</td>
+                                <td>Conference Center</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Quarterly Board Meeting</td>
+                                <td>Oct 20, 2023 • 10:00 AM</td>
+                                <td>Executive Boardroom</td>
+                                <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#toggleSidebar').click(function() {
+                $('#sidebar').toggleClass('active');
+            });
+            
+            $('.tab').click(function() {
+                var tabId = $(this).data('tab');
+                
+                $('.tab').removeClass('active');
+                $('.tab-content').removeClass('active');
+                
+                $(this).addClass('active');
+                $('#' + tabId + '-tab').addClass('active');
+            });
+            
+            $('#addEventBtn').click(function() {
+                $('#eventFormContainer').show();
+                $('#eventFormTitle').text('Add New Event');
+                $('#eventForm')[0].reset();
+                $('#eventId').val('');
+            });
+            
+            $('#cancelEventForm').click(function() {
+                $('#eventFormContainer').hide();
+            });
+            
+            $('#addVenueBtn').click(function() {
+                $('#venueFormContainer').show();
+                $('#venueFormTitle').text('Add New Venue');
+                $('#venueForm')[0].reset();
+                $('#venueId').val('');
+            });
+            
+            $('#cancelVenueForm').click(function() {
+                $('#venueFormContainer').hide();
+            });
+            
+            $('#eventForm').submit(function(e) {
+                e.preventDefault();
+                alert('Event saved successfully!');
+                $('#eventFormContainer').hide();
+            });
+            
+            // Venue form submission
+            $('#venueForm').submit(function(e) {
+                e.preventDefault();
+                alert('Venue saved successfully!');
+                $('#venueFormContainer').hide();
+            });
+            
+            $('#eventFilter').change(function() {
+                var filterValue = $(this).val();
+                console.log('Filtering events by: ' + filterValue);
+            });
+            
+            $('#venueFilter').change(function() {
+                var filterValue = $(this).val();
+                console.log('Filtering venues by: ' + filterValue);
+            });
+            
+            $('#bookingDate, #bookingStatus').change(function() {
+                var dateValue = $('#bookingDate').val();
+                var statusValue = $('#bookingStatus').val();
+                console.log('Filtering bookings by date: ' + dateValue + ' and status: ' + statusValue);
+            });
+            
+            $('#exportDataBtn').click(function() {
+                alert('Exporting event data...');
+            });
+            
+            $('#viewReportsBtn').click(function() {
+                alert('Opening reports dashboard...');
+            });
+            
+            $('.btn-edit').click(function() {
+                $('#eventFormContainer').show();
+                $('#eventFormTitle').text('Edit Event');
+                $('#eventName').val('Sample Event Name');
+                $('#eventForm').show();
+            });
+            
+            $('.btn-delete').click(function() {
+                if (confirm('Are you sure you want to delete this event?')) {
+                    $(this).closest('.event-card').fadeOut();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

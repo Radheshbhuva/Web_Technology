@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In / Sign Up</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #2ecc71;
+            --secondary-dark: #27ae60;
+            --text-color: #333;
+            --light-text: #777;
+            --background: #f9f9f9;
+            --white: #ffffff;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 900px;
+            min-height: 550px;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .form-container {
+            flex: 1;
+            padding: 40px;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        p {
+            color: var(--light-text);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--light-text);
+        }
+
+        .switch-form a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+
+        .overlay-container {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            left: -100%;
+            transition: left 0.6s ease-in-out;
+            display: flex;
+        }
+
+        .overlay-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .overlay-panel h1 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .overlay-panel p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+
+        .ghost {
+            background: transparent;
+            border: 2px solid white;
+        }
+
+        .ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .sign-in-container {
+            z-index: 2;
+        }
+
+        .sign-up-container {
+            z-index: 1;
+            opacity: 0;
+        }
+
+        .container.right-panel-active .sign-in-container {
+            transform: translateX(100%);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .container.right-panel-active .sign-up-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .container.right-panel-active .overlay {
+            left: 0;
+        }
+
+        .container.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
+
+        .overlay-container {
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .facebook {
+            background-color: #3b5998;
+        }
+
+        .google {
+            background-color: #dd4b39;
+        }
+
+        .twitter {
+            background-color: #1da1f2;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                max-width: 450px;
+            }
+
+            .overlay-container {
+                display: none;
+            }
+
+            .container.right-panel-active .sign-in-container,
+            .container.right-panel-active .sign-up-container {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <form class="form" id="signInForm">
+                <h1>Sign In</h1>
+                <p>Welcome back! Please sign in to your account.</p>
+                <div class="input-group">
+                    <label for="signInEmail">Email</label>
+                    <input type="email" id="signInEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="signInPassword">Password</label>
+                    <input type="password" id="signInPassword" placeholder="Enter your password" required>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+                <button type="submit">Sign In</button>
+                <div class="social-login">
+                    <div class="social-btn facebook">f</div>
+                    <div class="social-btn google">G</div>
+                    <div class="social-btn twitter">t</div>
+                </div>
+                <div class="switch-form">
+                    Don't have an account? <a id="signUpLink">Sign Up</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-container sign-up-container">
+            <form class="form" id="signUpForm">
+                <h1>Create Account</h1>
+                <p>Join us today! Fill in your details to get started.</p>
+                <div class="input-group">
+                    <label for="signUpName">Full Name</label>
+                    <input type="text" id="signUpName" placeholder="Enter your full name" required>
+                </div>
+                <div class="input-group">
+                    <label for="signUpEmail">Email</label>
+                    <input type="email" id="signUpEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="signUpPassword">Password</label>
+                    <input type="password" id="signUpPassword" placeholder="Create a password" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit">Sign Up</button>
+                <div class="social-login">
+                    <div class="social-btn facebook">f</div>
+                    <div class="social-btn google">G</div>
+                    <div class="social-btn twitter">t</div>
+                </div>
+                <div class="switch-form">
+                    Already have an account? <a id="signInLink">Sign In</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button class="ghost" id="signInOverlay">Sign In</button>
+                </div>
+                <div class="overlay-panel">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start your journey with us</p>
+                    <button class="ghost" id="signUpOverlay">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between sign in and sign up forms
+        const signUpLink = document.getElementById('signUpLink');
+        const signInLink = document.getElementById('signInLink');
+        const signUpOverlay = document.getElementById('signUpOverlay');
+        const signInOverlay = document.getElementById('signInOverlay');
+        const container = document.getElementById('container');
+
+        signUpLink.addEventListener('click', () => {
+            container.classList.add('right-panel-active');
+        });
+
+        signInLink.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
+        });
+
+        signUpOverlay.addEventListener('click', () => {
+            container.classList.add('right-panel-active');
+        });
+
+        signInOverlay.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
+        });
+
+        // Form submission handling
+        const signInForm = document.getElementById('signInForm');
+        const signUpForm = document.getElementById('signUpForm');
+
+        signInForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('signInEmail').value;
+            const password = document.getElementById('signInPassword').value;
+
+            // In a real application, you would send this data to your server
+            console.log('Sign In Attempt:', { email, password });
+
+            // For demo purposes, redirect to index.html after successful login
+            // In a real application, you would check credentials first
+            alert('Sign in successful! Redirecting to home page...');
+            window.location.href = 'index.html';
+        });
+
+        signUpForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // In a real application, you would send this data to your server
+            console.log('Sign Up Attempt:', { name, email, password });
+
+            // For demo purposes, redirect to index.html after successful registration
+            alert('Account created successfully! Redirecting to home page...');
+            window.location.href = 'index.html';
+        });
+
+        // Function to update theme colors to match your website
+        function updateTheme(primaryColor, secondaryColor) {
+            document.documentElement.style.setProperty('--primary-color', primaryColor);
+            document.documentElement.style.setProperty('--primary-dark', adjustColor(primaryColor, -20));
+            document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+            document.documentElement.style.setProperty('--secondary-dark', adjustColor(secondaryColor, -20));
+        }
+
+        // Helper function to adjust color brightness
+        function adjustColor(color, amount) {
+            return '#' + color.replace(/^#/, '').replace(/../g, color =>
+                ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2)
+            );
+        }
+
+        // Example: Update theme to match a blue and green website
+        // updateTheme('#3498db', '#2ecc71');
+    </script>
+</body>
+
+</html>

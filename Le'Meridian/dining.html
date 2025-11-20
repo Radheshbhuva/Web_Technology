@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Méridien Ahmedabad - Luxury Hotel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            padding-top: 80px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .navbar {
+            background-color: var(--primary-blue);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 30px;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--accent-gold);
+        }
+
+        .btn-gold {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+
+        .btn-gold:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+        }
+
+        .page-hero {
+            height: 40vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(0, 38, 58, 0.7), rgba(0, 38, 58, 0.7)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=800&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .room-card {
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .room-card img {
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .room-price {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .amenity-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        footer h5 {
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: var(--accent-gold);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--accent-gold);
+            transform: translateY(-3px);
+        }
+
+        .dining-card {
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+
+        .dining-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dining-card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .spa-card {
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+
+        .spa-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .spa-card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .event-card {
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .offer-card {
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .offer-card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-gold);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">LE MERIDIEN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rooms.html">Rooms & Suites</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link" href="spa.html">Spa & Wellness</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Meetings & Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+                </ul>
+                <div class="d-flex">
+                    <a href="booking.html" class="btn btn-gold ms-lg-3">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Dining Experiences</h1>
+            <p class="lead">Savor exquisite culinary creations at our award-winning restaurants</p>
+        </div>
+    </section>
+
+    <!-- Dining Section -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="section-title d-inline-block">Culinary Journey</h2>
+                <p class="text-muted">Discover our diverse dining venues offering everything from local Gujarati
+                    specialties to international cuisine</p>
+            </div>
+
+            <div class="row">
+                <!-- Restaurant 1 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="dining-card card">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            class="card-img-top" alt="Latest Recipe">
+                        <div class="card-body">
+                            <h5 class="card-title">Latest Recipe</h5>
+                            <p class="card-text">International buffet restaurant offering live cooking stations and
+                                global cuisine</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted"><i class="fas fa-clock me-2"></i>6:30 AM - 11:00 PM</span>
+                                <a href="#" class="btn btn-sm btn-gold">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 2 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="dining-card card">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            class="card-img-top" alt="Bamboo Bay">
+                        <div class="card-body">
+                            <h5 class="card-title">Bamboo Bay</h5>
+                            <p class="card-text">Asian specialty restaurant featuring authentic Chinese, Thai, and
+                                Japanese dishes</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted"><i class="fas fa-clock me-2"></i>12:00 PM - 11:30 PM</span>
+                                <a href="#" class="btn btn-sm btn-gold">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 3 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="dining-card card">
+                        <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            class="card-img-top" alt="Latitude Bar">
+                        <div class="card-body">
+                            <h5 class="card-title">Latitude Bar</h5>
+                            <p class="card-text">Sophisticated bar offering signature cocktails, fine wines, and light
+                                bites</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted"><i class="fas fa-clock me-2"></i>4:00 PM - 1:00 AM</span>
+                                <a href="#" class="btn btn-sm btn-gold">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 4 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="dining-card card">
+                        <img src="https://images.unsplash.com/photo-1576854284880-3200b1c6d614?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            class="card-img-top" alt="The Café">
+                        <div class="card-body">
+                            <h5 class="card-title">The Café</h5>
+                            <p class="card-text">Relaxed café serving premium coffees, teas, and freshly baked pastries
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted"><i class="fas fa-clock me-2"></i>7:00 AM - 10:00 PM</span>
+                                <a href="#" class="btn btn-sm btn-gold">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 5 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="dining-card card">
+                        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            class="card-img-top" alt="Poolside Grill">
+                        <div class="card-body">
+                            <h5 class="card-title">Poolside Grill</h5>
+                            <p class="card-text">Al fresco dining with grilled specialties and refreshing beverages</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted"><i class="fas fa-clock me-2"></i>11:00 AM - 7:00 PM</span>
+                                <a href="#" class="btn btn-sm btn-gold">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 6 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="dining-card card">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            class="card-img-top" alt="In-Room Dining">
+                        <div class="card-body">
+                            <h5 class="card-title">In-Room Dining</h5>
+                            <p class="card-text">Enjoy restaurant-quality meals in the comfort of your room</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted"><i class="fas fa-clock me-2"></i>24 Hours</span>
+                                <a href="#" class="btn btn-sm btn-gold">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Dining Experiences -->
+    <section class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="section-title d-inline-block">Special Dining Experiences</h2>
+                <p class="text-muted">Unique culinary journeys designed to create memorable moments</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="text-center">
+                        <div class="amenity-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h4>Private Dining</h4>
+                        <p>Exclusive dining experiences tailored for intimate celebrations and special occasions</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="text-center">
+                        <div class="amenity-icon">
+                            <i class="fas fa-cheese"></i>
+                        </div>
+                        <h4>Wine Tasting</h4>
+                        <p>Curated wine pairing sessions with our expert sommelier and selection of international wines
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="text-center">
+                        <div class="amenity-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h4>Chef's Table</h4>
+                        <p>An exclusive culinary experience with a personalized menu crafted by our executive chef</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h2 class="section-title">Make a Reservation</h2>
+                    <p class="lead">Secure your table at our popular restaurants</p>
+                    <p>Our culinary team takes pride in creating exceptional dining experiences. Reserve your table in
+                        advance to ensure availability, especially during weekends and holidays.</p>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-gold me-2"></i> Priority Seating
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-gold me-2"></i> Special Occasion
+                                    Setup</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-gold me-2"></i> Dietary Requirements
+                                    Accommodated</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-gold me-2"></i> Pre-Order Menu
+                                    Options</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-gold me-2"></i> Preferred Table
+                                    Requests</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-gold me-2"></i> Celebration Cakes &
+                                    Arrangements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="booking-form">
+                        <h4 class="mb-4">Table Reservation</h4>
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Select Restaurant</label>
+                                <select class="form-select">
+                                    <option>Latest Recipe</option>
+                                    <option>Bamboo Bay</option>
+                                    <option>Latitude Bar</option>
+                                    <option>The Café</option>
+                                    <option>Poolside Grill</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Time</label>
+                                    <input type="time" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Guests</label>
+                                    <select class="form-select">
+                                        <option>1 Person</option>
+                                        <option>2 People</option>
+                                        <option>3 People</option>
+                                        <option>4 People</option>
+                                        <option>5+ People</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Occasion</label>
+                                    <select class="form-select">
+                                        <option>Regular Dining</option>
+                                        <option>Birthday</option>
+                                        <option>Anniversary</option>
+                                        <option>Business Dinner</option>
+                                        <option>Other Celebration</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-gold w-100">Check Availability</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>Le Méridien Ahmedabad</h5>
+                    <p>Luxury hotel offering exceptional experiences in the heart of Ahmedabad.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html">Home</a></li>
+                        <li class="mb-2"><a href="rooms.html">Rooms & Suites</a></li>
+                        <li class="mb-2"><a href="dining.html">Dining</a></li>
+                        <li class="mb-2"><a href="spa.html">Spa & Wellness</a></li>
+                        <li class="mb-2"><a href="events.html">Meetings & Events</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-3 mb-4 mb-md-0">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Mithakali Six Roads, Navrangpura,
+                            Ahmedabad</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i> +91 79 1234 5678</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@lemeridienahmedabad.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe to our newsletter for special offers</p>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email">
+                            <button class="btn btn-gold" type="button">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1)">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 Le Méridien Ahmedabad. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="#">Terms of Use</a></li>
+                        <li class="list-inline-item"><a href="#">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Navbar scroll effect
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > 50) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            });
+
+            // Set active navigation link based on current page
+            const currentPage = window.location.pathname.split('/').pop();
+            $('.navbar-nav .nav-link').each(function () {
+                const linkPage = $(this).attr('href');
+                if (linkPage === currentPage) {
+                    $(this).addClass('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

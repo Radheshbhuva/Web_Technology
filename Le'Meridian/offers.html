@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Méridien Ahmedabad - Special Offers</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            padding-top: 80px; /* Added for fixed navbar */
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Header/Navigation Styles */
+        .navbar {
+            background-color: var(--primary-blue);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 30px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            color: var(--accent-gold);
+        }
+        
+        .btn-gold {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn-gold:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+        }
+        
+        .page-hero {
+            height: 40vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(0, 38, 58, 0.7), rgba(0, 38, 58, 0.7)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=800&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .offers-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-gold);
+        }
+        
+        .offer-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+            background: white;
+            position: relative;
+        }
+        
+        .offer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .offer-card img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .offer-card-content {
+            padding: 25px;
+        }
+        
+        .offer-card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+        
+        .offer-card-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .offer-features {
+            margin-bottom: 20px;
+        }
+        
+        .offer-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .offer-feature i {
+            color: var(--accent-gold);
+            margin-right: 10px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .offer-price {
+            font-size: 1.6rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .price-note {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        
+        .btn-offer {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-offer:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+            padding: 12px 25px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        
+        .offer-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-gold);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
+        
+        .offer-savings {
+            background-color: #e74c3c;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            margin: 0 5px 10px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--accent-gold);
+            color: white;
+            border-color: var(--accent-gold);
+        }
+        
+        .offer-expiry {
+            font-size: 0.9rem;
+            color: #e74c3c;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 992px) {
+            .navbar-nav {
+                margin-top: 15px;
+            }
+            
+            .navbar-nav .nav-link {
+                margin: 5px 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .offer-card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">LE MERIDIEN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rooms.html">Rooms & Suites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link" href="spa.html">Spa & Wellness</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Meetings & Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="offers.html">Offers</a></li>
+                </ul>
+                <div class="d-flex">
+                    <a href="booking.html" class="btn btn-gold">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Special Offers</h1>
+            <p class="lead">Exclusive deals and packages for an enhanced stay experience</p>
+        </div>
+    </section>
+
+    <div class="offers-container">
+        <!-- Introduction -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Current Promotions</h2>
+                <p>Take advantage of our limited-time offers and packages designed to make your stay at Le Méridien Ahmedabad even more memorable.</p>
+            </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Offers</button>
+            <button class="filter-btn" data-filter="stay">Stay Packages</button>
+            <button class="filter-btn" data-filter="dining">Dining Offers</button>
+            <button class="filter-btn" data-filter="spa">Spa Packages</button>
+            <button class="filter-btn" data-filter="family">Family Offers</button>
+        </div>
+
+        <!-- Offer Cards -->
+        <div class="row">
+            <!-- Advance Purchase Offer -->
+            <div class="col-md-6 col-lg-4">
+                <div class="offer-card" data-category="stay">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Advance Purchase Offer">
+                        <span class="offer-badge">Save 25%</span>
+                    </div>
+                    <div class="offer-card-content">
+                        <h3 class="offer-card-title">Advance Purchase Offer</h3>
+                        <p class="offer-card-description">Book in advance and enjoy significant savings on your stay with our best available rates.</p>
+                        
+                        <div class="offer-features">
+                            <div class="offer-feature">
+                                <i class="fas fa-percentage"></i> 25% discount on best available rates
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-utensils"></i> Daily breakfast for two
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-gift"></i> Welcome drink on arrival
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-calendar"></i> Book at least 14 days in advance
+                            </div>
+                        </div>
+                        
+                        <div class="offer-price">From ₹ 6,375 <span class="offer-savings">Save 25%</span></div>
+                        <p class="price-note">Per night, exclusive of taxes</p>
+                        <p class="offer-expiry">Valid until: December 20, 2023</p>
+                        
+                        <a href="#" class="btn-offer">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Spa Escape Package -->
+            <div class="col-md-6 col-lg-4">
+                <div class="offer-card" data-category="spa">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Spa Escape Package">
+                        <span class="offer-badge">Wellness</span>
+                    </div>
+                    <div class="offer-card-content">
+                        <h3 class="offer-card-title">Spa Escape Package</h3>
+                        <p class="offer-card-description">Rejuvenate your mind, body, and spirit with our exclusive spa package.</p>
+                        
+                        <div class="offer-features">
+                            <div class="offer-feature">
+                                <i class="fas fa-bed"></i> Luxury accommodation for two
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-spa"></i> 60-minute spa treatment per person
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-utensils"></i> Daily breakfast for two
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-swimming-pool"></i> Access to pool and fitness center
+                            </div>
+                        </div>
+                        
+                        <div class="offer-price">₹ 12,500 <span class="offer-savings">Value Package</span></div>
+                        <p class="price-note">Per night, inclusive of taxes</p>
+                        <p class="offer-expiry">Valid until: March 31, 2024</p>
+                        
+                        <a href="#" class="btn-offer">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Family Fun Package -->
+            <div class="col-md-6 col-lg-4">
+                <div class="offer-card" data-category="family">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Family Fun Package">
+                        <span class="offer-badge">Family</span>
+                    </div>
+                    <div class="offer-card-content">
+                        <h3 class="offer-card-title">Family Fun Package</h3>
+                        <p class="offer-card-description">Create lasting memories with your loved ones with our special family offer.</p>
+                        
+                        <div class="offer-features">
+                            <div class="offer-feature">
+                                <i class="fas fa-bed"></i> Spacious family room
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-child"></i> Complimentary stay for children under 12
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-utensils"></i> Breakfast for two adults and two children
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-ticket-alt"></i> Complimentary activities for kids
+                            </div>
+                        </div>
+                        
+                        <div class="offer-price">₹ 9,999 <span class="offer-savings">Family Deal</span></div>
+                        <p class="price-note">Per night, inclusive of taxes</p>
+                        <p class="offer-expiry">Valid until: April 15, 2024</p>
+                        
+                        <a href="#" class="btn-offer">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Romantic Getaway -->
+            <div class="col-md-6 col-lg-4">
+                <div class="offer-card" data-category="stay">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Romantic Getaway">
+                        <span class="offer-badge">Romance</span>
+                    </div>
+                    <div class="offer-card-content">
+                        <h3 class="offer-card-title">Romantic Getaway</h3>
+                        <p class="offer-card-description">Celebrate love with our specially curated romantic package for couples.</p>
+                        
+                        <div class="offer-features">
+                            <div class="offer-feature">
+                                <i class="fas fa-bed"></i> Luxury room with special amenities
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-glass-cheers"></i> Champagne and chocolate truffles on arrival
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-utensils"></i> Romantic dinner for two
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-heart"></i> Couples spa treatment (60 minutes)
+                            </div>
+                        </div>
+                        
+                        <div class="offer-price">₹ 14,999 <span class="offer-savings">Romantic</span></div>
+                        <p class="price-note">Per night, inclusive of taxes</p>
+                        <p class="offer-expiry">Valid until: February 14, 2024</p>
+                        
+                        <a href="#" class="btn-offer">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dining Experience -->
+            <div class="col-md-6 col-lg-4">
+                <div class="offer-card" data-category="dining">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gourmet Dining Experience">
+                        <span class="offer-badge">Dining</span>
+                    </div>
+                    <div class="offer-card-content">
+                        <h3 class="offer-card-title">Gourmet Dining Experience</h3>
+                        <p class="offer-card-description">Indulge in a culinary journey with our exclusive dining package.</p>
+                        
+                        <div class="offer-features">
+                            <div class="offer-feature">
+                                <i class="fas fa-utensils"></i> 5-course gourmet dinner for two
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-wine-glass-alt"></i> Wine pairing with each course
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-cookie"></i> Special dessert platter
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-music"></i> Live music entertainment
+                            </div>
+                        </div>
+                        
+                        <div class="offer-price">₹ 5,999 <span class="offer-savings">Fine Dining</span></div>
+                        <p class="price-note">For two people, inclusive of taxes</p>
+                        <p class="offer-expiry">Valid until: January 31, 2024</p>
+                        
+                        <a href="#" class="btn-offer">Reserve Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Weekend Retreat -->
+            <div class="col-md-6 col-lg-4">
+                <div class="offer-card" data-category="stay">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Weekend Retreat">
+                        <span class="offer-badge">Weekend</span>
+                    </div>
+                    <div class="offer-card-content">
+                        <h3 class="offer-card-title">Weekend Retreat</h3>
+                        <p class="offer-card-description">Escape the ordinary with our relaxing weekend package.</p>
+                        
+                        <div class="offer-features">
+                            <div class="offer-feature">
+                                <i class="fas fa-bed"></i> Two nights luxury accommodation
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-utensils"></i> Daily breakfast for two
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-cocktail"></i> Complimentary evening cocktails
+                            </div>
+                            <div class="offer-feature">
+                                <i class="fas fa-clock"></i> Late checkout until 4 PM
+                            </div>
+                        </div>
+                        
+                        <div class="offer-price">₹ 18,500 <span class="offer-savings">Weekend Deal</span></div>
+                        <p class="price-note">For two nights, inclusive of taxes</p>
+                        <p class="offer-expiry">Valid until: March 31, 2024</p>
+                        
+                        <a href="#" class="btn-offer">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Filter functionality
+            $('.filter-btn').on('click', function() {
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                const filter = $(this).data('filter');
+                
+                if (filter === 'all') {
+                    $('.offer-card').parent().show();
+                } else {
+                    $('.offer-card').parent().hide();
+                    $(`.offer-card[data-category="${filter}"]`).parent().show();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

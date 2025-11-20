@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spa Management - Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary-blue);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent-gold);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #b8975e;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-color: #ddd;
+            border-bottom-color: white;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Table Styles */
+        .table-container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .table-container h2 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-available {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-booked {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-maintenance {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .btn-action {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        
+        .btn-edit {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-view {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        /* Form Styles */
+        .form-container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .form-container h2 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--primary-blue);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(198, 170, 118, 0.25);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        /* Treatment Card */
+        .treatment-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .treatment-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        .treatment-card-content {
+            flex: 1;
+        }
+        
+        .treatment-card-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+        
+        .treatment-card-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .treatment-card-price {
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+        
+        .treatment-card-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        /* Therapist Card */
+        .therapist-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .therapist-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        .therapist-card-content {
+            flex: 1;
+        }
+        
+        .therapist-card-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+        
+        .therapist-card-specialty {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .therapist-card-rating {
+            color: #ffc107;
+        }
+        
+        .therapist-card-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        /* Booking Card */
+        .booking-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .booking-id {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+        
+        .booking-status {
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-confirmed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Toggle Button for Mobile */
+        .toggle-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .toggle-sidebar {
+                display: block;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .treatment-card, .therapist-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .treatment-card img, .therapist-card img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-hotel"></i> Admin Panel</h3>
+                <p>Le Méridien Ahmedabad</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="room_management.html"><i class="fas fa-bed"></i> Room Management</a></li>
+                <li><a href="dining_management.html"><i class="fas fa-utensils"></i> Dining Management</a></li>
+                <li><a href="spa_management.html" class="active"><i class="fas fa-spa"></i> Spa Management</a></li>
+                <li><a href="event_management.html"><i class="fas fa-calendar-alt"></i> Event Management</a></li>
+                <li><a href="gallery_management.html"><i class="fas fa-image"></i> Gallery Management</a></li>
+                <li><a href="offers_management.html"><i class="fas fa-tags"></i> Offers Management</a></li>
+                <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Back to Website</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="toggle-sidebar" id="toggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Spa & Wellness Management</h1>
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin User">
+                    <div>
+                        <div>Admin User</div>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="treatments">Treatments</div>
+                <div class="tab" data-tab="therapists">Therapists</div>
+                <div class="tab" data-tab="bookings">Bookings</div>
+                <div class="tab" data-tab="facilities">Facilities</div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn-primary" id="addTreatmentBtn">
+                    <i class="fas fa-plus"></i> Add Treatment
+                </button>
+                <button class="btn-primary" id="addTherapistBtn">
+                    <i class="fas fa-user-plus"></i> Add Therapist
+                </button>
+                <button class="btn-secondary" id="exportDataBtn">
+                    <i class="fas fa-file-export"></i> Export Data
+                </button>
+                <button class="btn-secondary" id="viewReportsBtn">
+                    <i class="fas fa-chart-bar"></i> View Reports
+                </button>
+            </div>
+
+            <!-- Treatments Tab -->
+            <div class="tab-content active" id="treatments-tab">
+                <div class="table-container">
+                    <h2>Spa Treatments</h2>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="treatmentFilter">Filter by Category:</label>
+                        <select class="form-control" id="treatmentFilter" style="width: 300px;">
+                            <option value="all">All Categories</option>
+                            <option value="Massage">Massage</option>
+                            <option value="Facial">Facial</option>
+                            <option value="Body Treatment">Body Treatment</option>
+                            <option value="Package">Package</option>
+                        </select>
+                    </div>
+                    
+                    <div id="treatmentsContainer">
+                        <!-- Treatment cards will be loaded here -->
+                        <div class="treatment-card">
+                            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Aromatherapy Massage">
+                            <div class="treatment-card-content">
+                                <div class="treatment-card-title">Aromatherapy Massage</div>
+                                <div class="treatment-card-description">A soothing massage using essential oils to enhance physical and emotional well-being.</div>
+                                <div class="treatment-card-price">₹ 4,500 • 60 minutes</div>
+                                <div><small>Massage • Relaxation</small></div>
+                            </div>
+                            <div class="treatment-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="treatment-card">
+                            <img src="https://images.unsplash.com/photo-1591348278863-a8fb3887e2aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Hot Stone Massage">
+                            <div class="treatment-card-content">
+                                <div class="treatment-card-title">Hot Stone Massage</div>
+                                <div class="treatment-card-description">Heated stones are used to massage and relax muscles, providing deep relaxation.</div>
+                                <div class="treatment-card-price">₹ 5,200 • 75 minutes</div>
+                                <div><small>Massage • Therapeutic</small></div>
+                            </div>
+                            <div class="treatment-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="treatment-card">
+                            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Hydrating Facial">
+                            <div class="treatment-card-content">
+                                <div class="treatment-card-title">Hydrating Facial</div>
+                                <div class="treatment-card-description">A nourishing treatment that replenishes moisture and revitalizes the skin.</div>
+                                <div class="treatment-card-price">₹ 3,900 • 50 minutes</div>
+                                <div><small>Facial • Skincare</small></div>
+                            </div>
+                            <div class="treatment-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add/Edit Treatment Form -->
+                <div class="form-container" id="treatmentFormContainer" style="display: none;">
+                    <h2 id="treatmentFormTitle">Add New Treatment</h2>
+                    <form id="treatmentForm">
+                        <input type="hidden" id="treatmentId">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="treatmentName">Treatment Name</label>
+                                <input type="text" class="form-control" id="treatmentName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="treatmentCategory">Category</label>
+                                <select class="form-control" id="treatmentCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Massage">Massage</option>
+                                    <option value="Facial">Facial</option>
+                                    <option value="Body Treatment">Body Treatment</option>
+                                    <option value="Package">Package</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="treatmentPrice">Price (₹)</label>
+                                <input type="number" class="form-control" id="treatmentPrice" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="treatmentDuration">Duration (minutes)</label>
+                                <input type="number" class="form-control" id="treatmentDuration" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="treatmentDescription">Description</label>
+                            <textarea class="form-control" id="treatmentDescription" rows="3" placeholder="Enter treatment description"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="treatmentBenefits">Key Benefits</label>
+                            <textarea class="form-control" id="treatmentBenefits" rows="2" placeholder="Enter key benefits (comma separated)"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="treatmentImage">Treatment Image</label>
+                            <input type="file" class="form-control" id="treatmentImage">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Save Treatment</button>
+                        <button type="button" class="btn-secondary" id="cancelTreatmentForm">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Therapists Tab -->
+            <div class="tab-content" id="therapists-tab">
+                <div class="table-container">
+                    <h2>Spa Therapists</h2>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="therapistFilter">Filter by Specialty:</label>
+                        <select class="form-control" id="therapistFilter" style="width: 300px;">
+                            <option value="all">All Specialties</option>
+                            <option value="Massage">Massage</option>
+                            <option value="Facial">Facial</option>
+                            <option value="Body Treatment">Body Treatment</option>
+                            <option value="Ayurveda">Ayurveda</option>
+                        </select>
+                    </div>
+                    
+                    <div id="therapistsContainer">
+                        <!-- Therapist cards will be loaded here -->
+                        <div class="therapist-card">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Priya Sharma">
+                            <div class="therapist-card-content">
+                                <div class="therapist-card-title">Priya Sharma</div>
+                                <div class="therapist-card-specialty">Senior Massage Therapist</div>
+                                <div class="therapist-card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    4.7 (128 reviews)
+                                </div>
+                                <div><small>Specialties: Aromatherapy, Deep Tissue, Hot Stone</small></div>
+                            </div>
+                            <div class="therapist-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Schedule</button>
+                            </div>
+                        </div>
+                        
+                        <div class="therapist-card">
+                            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Anita Patel">
+                            <div class="therapist-card-content">
+                                <div class="therapist-card-title">Anita Patel</div>
+                                <div class="therapist-card-specialty">Facial Specialist</div>
+                                <div class="therapist-card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    5.0 (94 reviews)
+                                </div>
+                                <div><small>Specialties: Anti-aging, Hydrating, Brightening</small></div>
+                            </div>
+                            <div class="therapist-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Schedule</button>
+                            </div>
+                        </div>
+                        
+                        <div class="therapist-card">
+                            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Rajesh Kumar">
+                            <div class="therapist-card-content">
+                                <div class="therapist-card-title">Rajesh Kumar</div>
+                                <div class="therapist-card-specialty">Ayurvedic Practitioner</div>
+                                <div class="therapist-card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    4.9 (76 reviews)
+                                </div>
+                                <div><small>Specialties: Ayurvedic Massage, Detox, Panchakarma</small></div>
+                            </div>
+                            <div class="therapist-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Schedule</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add/Edit Therapist Form -->
+                <div class="form-container" id="therapistFormContainer" style="display: none;">
+                    <h2 id="therapistFormTitle">Add New Therapist</h2>
+                    <form id="therapistForm">
+                        <input type="hidden" id="therapistId">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="therapistName">Full Name</label>
+                                <input type="text" class="form-control" id="therapistName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="therapistTitle">Title/Position</label>
+                                <input type="text" class="form-control" id="therapistTitle" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="therapistSpecialty">Primary Specialty</label>
+                                <select class="form-control" id="therapistSpecialty" required>
+                                    <option value="">Select Specialty</option>
+                                    <option value="Massage">Massage</option>
+                                    <option value="Facial">Facial</option>
+                                    <option value="Body Treatment">Body Treatment</option>
+                                    <option value="Ayurveda">Ayurveda</option>
+                                    <option value="Reflexology">Reflexology</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="therapistExperience">Years of Experience</label>
+                                <input type="number" class="form-control" id="therapistExperience" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="therapistBio">Bio/Description</label>
+                            <textarea class="form-control" id="therapistBio" rows="3" placeholder="Enter therapist bio"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="therapistSpecialties">Specialties (comma separated)</label>
+                            <input type="text" class="form-control" id="therapistSpecialties" placeholder="e.g., Deep Tissue, Hot Stone, Aromatherapy">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="therapistImage">Therapist Photo</label>
+                            <input type="file" class="form-control" id="therapistImage">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Save Therapist</button>
+                        <button type="button" class="btn-secondary" id="cancelTherapistForm">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bookings Tab -->
+            <div class="tab-content" id="bookings-tab">
+                <div class="table-container">
+                    <h2>Spa Bookings</h2>
+                    <div class="form-row" style="margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label for="bookingDate">Filter by Date:</label>
+                            <input type="date" class="form-control" id="bookingDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingStatus">Filter by Status:</label>
+                            <select class="form-control" id="bookingStatus">
+                                <option value="all">All Statuses</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="pending">Pending</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="bookingsContainer">
+                        <!-- Bookings will be loaded here -->
+                        <div class="booking-card">
+                            <div class="booking-header">
+                                <div class="booking-id">#SB2023101501</div>
+                                <div class="booking-status status-confirmed">Confirmed</div>
+                            </div>
+                            <p><strong>Guest:</strong> Michael Johnson</p>
+                            <p><strong>Treatment:</strong> Aromatherapy Massage</p>
+                            <p><strong>Therapist:</strong> Priya Sharma</p>
+                            <p><strong>Date & Time:</strong> 15 Oct 2023, 2:00 PM</p>
+                            <p><strong>Duration:</strong> 60 minutes</p>
+                            <div style="margin-top: 10px;">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Details</button>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-card">
+                            <div class="booking-header">
+                                <div class="booking-id">#SB2023101502</div>
+                                <div class="booking-status status-pending">Pending</div>
+                            </div>
+                            <p><strong>Guest:</strong> Sarah Williams</p>
+                            <p><strong>Treatment:</strong> Hydrating Facial</p>
+                            <p><strong>Therapist:</strong> Anita Patel</p>
+                            <p><strong>Date & Time:</strong> 15 Oct 2023, 4:30 PM</p>
+                            <p><strong>Duration:</strong> 50 minutes</p>
+                            <div style="margin-top: 10px;">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Facilities Tab -->
+            <div class="tab-content" id="facilities-tab">
+                <div class="table-container">
+                    <h2>Spa Facilities</h2>
+                    <table id="facilitiesTable">
+                        <thead>
+                            <tr>
+                                <th>Facility</th>
+                                <th>Status</th>
+                                <th>Capacity</th>
+                                <th>Maintenance Schedule</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Massage Rooms</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                                <td>8 rooms</td>
+                                <td>Weekly cleaning</td>
+                                <td>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                    <button class="btn-action btn-view">Schedule</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Steam Room</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                                <td>6 people</td>
+                                <td>Daily maintenance</td>
+                                <td>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                    <button class="btn-action btn-view">Schedule</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sauna</td>
+                                <td><span class="status-badge status-maintenance">Maintenance</span></td>
+                                <td>4 people</td>
+                                <td>Monthly deep clean</td>
+                                <td>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                    <button class="btn-action btn-view">Schedule</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jacuzzi</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                                <td>8 people</td>
+                                <td>Weekly water treatment</td>
+                                <td>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                    <button class="btn-action btn-view">Schedule</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Relaxation Lounge</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                                <td>12 people</td>
+                                <td>Daily cleaning</td>
+                                <td>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                    <button class="btn-action btn-view">Schedule</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Toggle sidebar on mobile
+            $('#toggleSidebar').click(function() {
+                $('#sidebar').toggleClass('active');
+            });
+            
+            // Tab functionality
+            $('.tab').click(function() {
+                $('.tab').removeClass('active');
+                $(this).addClass('active');
+                
+                const tabId = $(this).data('tab');
+                $('.tab-content').removeClass('active');
+                $(`#${tabId}-tab`).addClass('active');
+            });
+            
+            // Show/hide treatment form
+            $('#addTreatmentBtn').click(function() {
+                $('#treatmentFormTitle').text('Add New Treatment');
+                $('#treatmentForm')[0].reset();
+                $('#treatmentFormContainer').show();
+                $('.tab').removeClass('active');
+                $('.tab-content').removeClass('active');
+                $('.tab[data-tab="treatments"]').addClass('active');
+                $('#treatments-tab').addClass('active');
+            });
+            
+            $('#cancelTreatmentForm').click(function() {
+                $('#treatmentFormContainer').hide();
+            });
+            
+            // Show/hide therapist form
+            $('#addTherapistBtn').click(function() {
+                $('#therapistFormTitle').text('Add New Therapist');
+                $('#therapistForm')[0].reset();
+                $('#therapistFormContainer').show();
+                $('.tab').removeClass('active');
+                $('.tab-content').removeClass('active');
+                $('.tab[data-tab="therapists"]').addClass('active');
+                $('#therapists-tab').addClass('active');
+            });
+            
+            $('#cancelTherapistForm').click(function() {
+                $('#therapistFormContainer').hide();
+            });
+            
+            // Handle form submissions
+            $('#treatmentForm').submit(function(e) {
+                e.preventDefault();
+                alert('Treatment saved successfully!');
+                $('#treatmentFormContainer').hide();
+            });
+            
+            $('#therapistForm').submit(function(e) {
+                e.preventDefault();
+                alert('Therapist saved successfully!');
+                $('#therapistFormContainer').hide();
+            });
+            
+            // Export data
+            $('#exportDataBtn').click(function() {
+                alert('Spa data exported successfully!');
+            });
+            
+            // View reports
+            $('#viewReportsBtn').click(function() {
+                alert('Opening spa reports dashboard...');
+            });
+            
+            // Treatment actions
+            $('.treatment-card .btn-edit').click(function() {
+                $('#treatmentFormTitle').text('Edit Treatment');
+                $('#treatmentFormContainer').show();
+                // In a real application, you would load the treatment data here
+            });
+            
+            $('.treatment-card .btn-delete').click(function() {
+                if (confirm('Are you sure you want to delete this treatment?')) {
+                    alert('Treatment deleted successfully!');
+                }
+            });
+            
+            // Therapist actions
+            $('.therapist-card .btn-edit').click(function() {
+                $('#therapistFormTitle').text('Edit Therapist');
+                $('#therapistFormContainer').show();
+                // In a real application, you would load the therapist data here
+            });
+            
+            $('.therapist-card .btn-view').click(function() {
+                alert('Opening therapist schedule...');
+            });
+            
+            // Filter treatments by category
+            $('#treatmentFilter').change(function() {
+                const category = $(this).val();
+                if (category === 'all') {
+                    $('.treatment-card').show();
+                } else {
+                    $('.treatment-card').hide();
+                    $(`.treatment-card:contains(${category})`).show();
+                }
+            });
+            
+            // Filter therapists by specialty
+            $('#therapistFilter').change(function() {
+                const specialty = $(this).val();
+                if (specialty === 'all') {
+                    $('.therapist-card').show();
+                } else {
+                    $('.therapist-card').hide();
+                    $(`.therapist-card:contains(${specialty})`).show();
+                }
+            });
+            
+            // Booking actions
+            $('.booking-card .btn-edit').click(function() {
+                alert('Editing booking...');
+            });
+            
+            $('.booking-card .btn-view').click(function() {
+                alert('Viewing booking details...');
+            });
+        });
+    </script>
+</body>
+</html>

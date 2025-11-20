@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Le Méridien Ahmedabad - Luxury Hotel Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        
+        .auth-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 15px;
+        }
+        
+        .user-welcome {
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .btn-logout {
+            background: #d9534f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: #c9302c;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <a href="#" class="logo">
+                    Le Méridien <span>Ahmedabad</span>
+                </a>
+
+                <ul class="nav-main">
+                    <li><a href="rooms.html">Rooms & Suites</a></li>
+                    <li><a href="dining.html">Dining</a></li>
+                    <li><a href="spa.html">Spa Treatments</a></li>
+                    <li><a href="events.html">Meetings & Events</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="offers.html">Offers</a></li>
+                </ul>
+                <div class="header-actions">
+                    
+                    <div class="auth-status" id="authStatus">
+                        
+                    </div>
+                    <button class="btn btn-outline">Contact Us</button>
+                    <button class="btn btn-primary" onclick="window.location.href='book_now.html'">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Discover Luxury Reimagined</h1>
+            <p>Experience the perfect blend of contemporary elegance and rich cultural heritage in the heart of
+                Ahmedabad</p>
+            <div class="hero-btns">
+                <button class="btn btn-primary">Explore Our Offers</button>
+                <button class="btn btn-outline">Virtual Tour</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="booking-widget">
+            <div class="booking-section" data-section="dates">
+                <div class="booking-header">
+                    <span class="icon">📅</span>
+                    <span class="title">Dates</span>
+                    <span class="summary" id="date-summary">Sep 07 → Sep 08</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="booking-panel">
+                    <div class="calendar-container">
+                        <div class="month-nav">
+                            <button class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+                            <div class="month-name">September 2025</div>
+                            <button class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <table class="calendar">
+                            <thead>
+                                <tr>
+                                    <th>S</th>
+                                    <th>M</th>
+                                    <th>T</th>
+                                    <th>W</th>
+                                    <th>T</th>
+                                    <th>F</th>
+                                    <th>S</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <button class="done-btn">Done</button>
+                </div>
+            </div>
+
+            <div class="booking-section" data-section="rooms">
+                <div class="booking-header">
+                    <span class="icon">👤</span>
+                    <span class="title">Rooms & Guests</span>
+                    <span class="summary" id="rooms-summary">1 Room, 1 Adult</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="booking-panel">
+                    <div class="counter">
+                        <div class="counter-label">Rooms</div>
+                        <div class="counter-controls">
+                            <button class="counter-btn">-</button>
+                            <span class="counter-value">1</span>
+                            <button class="counter-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="counter">
+                        <div class="counter-label">Adults</div>
+                        <div class="counter-controls">
+                            <button class="counter-btn">-</button>
+                            <span class="counter-value">1</span>
+                            <button class="counter-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="counter">
+                        <div class="counter-label">Children</div>
+                        <div class="counter-controls">
+                            <button class="counter-btn">-</button>
+                            <span class="counter-value">0</span>
+                            <button class="counter-btn">+</button>
+                        </div>
+                    </div>
+                    <button class="done-btn">Done</button>
+                </div>
+            </div>
+
+            <div class="booking-section" data-section="rates">
+                <div class="booking-header">
+                    <span class="icon">🏷️</span>
+                    <span class="title">Special Rates</span>
+                    <span class="summary" id="rate-summary">Lowest Regular Rate</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="booking-panel">
+                    <label><input type="radio" name="rate" checked> Lowest Regular Rate</label>
+                    <label><input type="radio" name="rate"> Senior Discount</label>
+                    <label><input type="radio" name="rate"> AAA/CAA</label>
+                    <label><input type="radio" name="rate"> Government & Military</label>
+                    <button class="done-btn">Done</button>
+                </div>
+            </div>
+
+            <button class="btn btn-primary check-btn">Check Availability</button>
+        </div>
+    </div>
+
+
+    <section class="section" id="experience">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Le Méridien Experience</h2>
+                <p>Discover what makes our brand unique - a blend of sophisticated style, cultural appreciation, and
+                    curated experiences</p>
+            </div>
+
+            <div class="experience-grid">
+                <div class="experience-card">
+                    <div class="exp-img">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            alt="Lobby">
+                    </div>
+                    <div class="exp-content">
+                        <h3>Transformative Lobby</h3>
+                        <p>Our curated lobby environment transitions from a coffee house by day to a cocktail bar by
+                            night.</p>
+                        <a href="#" class="read-more">Discover more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="experience-card">
+                    <div class="exp-img">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            alt="Dining">
+                    </div>
+                    <div class="exp-content">
+                        <h3>Curated Culinary Journey</h3>
+                        <p>From Italian classics at Via Milano to authentic Gujarati cuisine, embark on a culinary
+                            adventure.</p>
+                        <a href="#" class="read-more">Discover more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="experience-card">
+                    <div class="exp-img">
+                        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            alt="Spa">
+                    </div>
+                    <div class="exp-content">
+                        <h3>Explore Spa</h3>
+                        <p>Rejuvenate your senses with our holistic wellness treatments inspired by ancient traditions.
+                        </p>
+                        <a href="#" class="read-more">Discover more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section room-showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2>Luxurious Accommodations</h2>
+                <p>Experience comfort and elegance in our thoughtfully designed rooms and suites</p>
+            </div>
+
+            <div class="room-slider">
+                <div class="room-card">
+                    <div class="room-img">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            alt="Deluxe Room">
+                    </div>
+                    <div class="room-content">
+                        <h3>Deluxe Room</h3>
+                        <p>Spacious rooms with modern amenities and stunning city views</p>
+
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i> 2 Guests
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-ruler-combined"></i> 42 m²
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i> King Bed
+                            </div>
+                        </div>
+
+                        <div class="room-price">
+                            <div class="price-tag">₹ 8,500/night</div>
+                            <a href="room-detail.html?room=deluxe" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="room-card">
+                    <div class="room-img">
+                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            alt="Executive Suite">
+                    </div>
+                    <div class="room-content">
+                        <h3>Executive Suite</h3>
+                        <p>Luxurious suite with separate living area and premium amenities</p>
+
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i> 3 Guests
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-ruler-combined"></i> 78 m²
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i> King Bed + Sofa Bed
+                            </div>
+                        </div>
+
+                        <div class="room-price">
+                            <div class="price-tag">₹ 14,500/night</div>
+                            <a href="room-detail.html?room=deluxe" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="room-card">
+                    <div class="room-img">
+                        <img src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                            alt="Presidential Suite">
+                    </div>
+                    <div class="room-content">
+                        <h3>Presidential Suite</h3>
+                        <p>Ultimate luxury with panoramic views and exclusive amenities</p>
+
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i> 4 Guests
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-ruler-combined"></i> 120 m²
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i> King Bed + 2 Singles
+                            </div>
+                        </div>
+
+                        <div class="room-price">
+                            <div class="price-tag">₹ 25,000/night</div>
+                            <a href="room-detail.html?room=deluxe" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section local-experience" id="local">
+        <div class="container">
+            <div class="section-header">
+                <h2>Discover Ahmedabad</h2>
+                <p>Explore the rich cultural heritage of Gujarat's largest city with our curated experiences</p>
+            </div>
+
+            <div class="local-grid">
+                <div class="local-card">
+                    <i class="fas fa-archway"></i>
+                    <h3>Heritage Walk</h3>
+                    <p>Explore the old city's pol architecture and historical landmarks with our expert guides.</p>
+                </div>
+
+                <div class="local-card">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Food Trail</h3>
+                    <p>Discover the authentic flavors of Gujarati cuisine through our curated food tours.</p>
+                </div>
+
+                <div class="local-card">
+                    <i class="fas fa-monument"></i>
+                    <h3>Architectural Tour</h3>
+                    <p>Visit iconic sites including Sabarmati Ashram and admire Louis Kahn's architecture.</p>
+                </div>
+
+                <div class="local-card">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h3>Textile Exploration</h3>
+                    <p>Discover Ahmedabad's rich textile heritage with visits to traditional markets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Guest Experiences</h2>
+                <p>See what our guests have to say about their stay at Le Méridien Ahmedabad</p>
+            </div>
+
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        The attention to detail at Le Méridien Ahmedabad is exceptional. From the luxurious room
+                        amenities to the impeccable service, every aspect of our stay was perfect. The heritage tour
+                        arranged by the hotel was the highlight of our trip.
+                    </div>
+                    <div class="testimonial-author">Rajesh & Priya Mehta</div>
+                    <div class="testimonial-role">From Mumbai</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Le Méridien Ahmedabad</h3>
+                    <p>Experience luxury redefined in the cultural heart of Gujarat.</p>
+
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Rooms & Suites</a></li>
+                        <li><a href="#">Dining</a></li>
+                        <li><a href="#">Spa & Wellness</a></li>
+                        <li><a href="#">Meetings & Events</a></li>
+                        <li><a href="#">Special Offers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Mithakali Six Roads, Navrangpura, Ahmedabad</li>
+                        <li><i class="fas fa-phone"></i> +91 79 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info.ahmedabad@lemeridien.com</li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter for exclusive offers and updates.</p>
+                    <form>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email Address"
+                                style="padding: 12px; width: 100%; margin-top: 10px;">
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 10px;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2023 Le Méridien Ahmedabad. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        class AuthManager {
+            constructor() {
+                this.currentUser = null;
+                this.init();
+            }
+
+            init() {
+                const savedUser = localStorage.getItem('currentUser');
+                if (savedUser) {
+                    this.currentUser = JSON.parse(savedUser);
+                }
+                this.updateUI();
+            }
+
+            login(userData) {
+                this.currentUser = userData;
+                localStorage.setItem('currentUser', JSON.stringify(userData));
+                this.updateUI();
+            }
+
+            logout() {
+                this.currentUser = null;
+                localStorage.removeItem('currentUser');
+                this.updateUI();
+                window.location.href = 'signin.html';
+            }
+
+            updateUI() {
+                const authStatus = document.getElementById('authStatus');
+                
+                if (this.currentUser) {
+                    authStatus.innerHTML = `
+                        <span class="user-welcome">Welcome, ${this.currentUser.name || this.currentUser.email}</span>
+                        <button class="btn-logout" onclick="authManager.logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    `;
+                } else {
+                    authStatus.innerHTML = `
+                        <button class="btn btn-outline" onclick="window.location.href='signin.html'">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
+                        </button>
+                    `;
+                }
+            }
+
+            isLoggedIn() {
+                return this.currentUser !== null;
+            }
+
+            getUser() {
+                return this.currentUser;
+            }
+        }
+
+        const authManager = new AuthManager();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const loginSuccess = urlParams.get('login');
+            const userData = urlParams.get('user');
+            
+            if (loginSuccess === 'success' && userData) {
+                try {
+                    const user = JSON.parse(decodeURIComponent(userData));
+                    authManager.login(user);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                }
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

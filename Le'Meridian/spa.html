@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Méridien Spa & Wellness</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            padding-top: 80px; /* Added for fixed navbar */
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Header/Navigation Styles */
+        .navbar {
+            background-color: var(--primary-blue);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 30px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            color: var(--accent-gold);
+        }
+        
+        .btn-gold {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn-gold:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+        }
+        
+        .header {
+            background: linear-gradient(rgba(0, 38, 58, 0.8), rgba(0, 38, 58, 0.8)), url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 20px 60px; /* Adjusted padding for fixed navbar */
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .spa-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-gold);
+        }
+        
+        .spa-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+            background: white;
+        }
+        
+        .spa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .spa-card img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .spa-card-content {
+            padding: 20px;
+        }
+        
+        .spa-card-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+        
+        .spa-card-duration {
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .spa-card-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .spa-card-price {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .btn-book {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-book:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .spa-category {
+            margin-bottom: 50px;
+        }
+        
+        .spa-category-title {
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .benefits-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .benefits-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .benefits-list li:before {
+            content: '✓';
+            color: var(--accent-gold);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            margin: 0 5px 10px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--accent-gold);
+            color: white;
+            border-color: var(--accent-gold);
+        }
+        
+        @media (max-width: 992px) {
+            .navbar-nav {
+                margin-top: 15px;
+            }
+            
+            .navbar-nav .nav-link {
+                margin: 5px 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .spa-card {
+                margin-bottom: 20px;
+            }
+            
+            .header {
+                padding: 80px 15px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">LE MERIDIEN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rooms.html">Rooms & Suites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="spa.html">Spa & Wellness</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Meetings & Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+                </ul>
+                <div class="d-flex">
+                    <a href="booking.html" class="btn btn-gold">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="spa-container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Le Méridien Spa & Wellness</h1>
+            <p class="lead">Experience ultimate relaxation and rejuvenation with our curated treatments</p>
+        </div>
+
+        <!-- Introduction -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Spa Treatments</h2>
+                <p>Indulge in our exclusive spa treatments designed to rejuvenate your mind, body, and spirit. Our expert therapists use premium products and techniques to deliver a transformative experience.</p>
+            </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Treatments</button>
+            <button class="filter-btn" data-filter="massage">Massages</button>
+            <button class="filter-btn" data-filter="facial">Facials</button>
+            <button class="filter-btn" data-filter="body">Body Treatments</button>
+            <button class="filter-btn" data-filter="package">Packages</button>
+        </div>
+
+        <!-- Massage Treatments -->
+        <div class="spa-category" data-category="massage">
+            <h2 class="spa-category-title">Massage Therapies</h2>
+            <div class="row">
+                <!-- Card 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Aromatherapy Massage">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Aromatherapy Massage</h3>
+                            <span class="spa-card-duration">60 minutes</span>
+                            <p class="spa-card-description">A soothing massage using essential oils to enhance physical and emotional well-being.</p>
+                            <ul class="benefits-list">
+                                <li>Reduces stress and anxiety</li>
+                                <li>Improves circulation</li>
+                                <li>Enhances mood</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 4,500</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1591348278863-a8fb3887e2aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Hot Stone Massage">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Hot Stone Massage</h3>
+                            <span class="spa-card-duration">75 minutes</span>
+                            <p class="spa-card-description">Heated stones are used to massage and relax muscles, providing deep relaxation.</p>
+                            <ul class="benefits-list">
+                                <li>Relieves muscle tension</li>
+                                <li>Improves blood flow</li>
+                                <li>Reduces stress</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 5,200</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1560090995-0166e73df616?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Deep Tissue Massage">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Deep Tissue Massage</h3>
+                            <span class="spa-card-duration">60 minutes</span>
+                            <p class="spa-card-description">A therapeutic massage targeting deeper layers of muscle and connective tissue.</p>
+                            <ul class="benefits-list">
+                                <li>Relieves chronic pain</li>
+                                <li>Breaks down scar tissue</li>
+                                <li>Improves mobility</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 4,800</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Facial Treatments -->
+        <div class="spa-category" data-category="facial">
+            <h2 class="spa-category-title">Facial Treatments</h2>
+            <div class="row">
+                <!-- Card 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwa90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Hydrating Facial">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Hydrating Facial</h3>
+                            <span class="spa-card-duration">50 minutes</span>
+                            <p class="spa-card-description">A nourishing treatment that replenishes moisture and revitalizes the skin.</p>
+                            <ul class="benefits-list">
+                                <li>Deeply hydrates skin</li>
+                                <li>Improves skin elasticity</li>
+                                <li>Reduces fine lines</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 3,900</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Anti-Aging Facial">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Anti-Aging Facial</h3>
+                            <span class="spa-card-duration">70 minutes</span>
+                            <p class="spa-card-description">A rejuvenating treatment designed to combat signs of aging and restore youthfulness.</p>
+                            <ul class="benefits-list">
+                                <li>Reduces wrinkles</li>
+                                <li>Firms skin</li>
+                                <li>Boosts collagen</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 5,500</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Brightening Facial">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Brightening Facial</h3>
+                            <span class="spa-card-duration">60 minutes</span>
+                            <p class="spa-card-description">A treatment focused on reducing pigmentation and brightening the complexion.</p>
+                            <ul class="benefits-list">
+                                <li>Evens skin tone</li>
+                                <li>Reduces dark spots</li>
+                                <li>Enhances radiance</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 4,700</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Body Treatments -->
+        <div class="spa-category" data-category="body">
+            <h2 class="spa-category-title">Body Treatments</h2>
+            <div class="row">
+                <!-- Card 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Body Scrub">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Detox Body Scrub</h3>
+                            <span class="spa-card-duration">45 minutes</span>
+                            <p class="spa-card-description">An exfoliating treatment that removes dead skin cells and stimulates circulation.</p>
+                            <ul class="benefits-list">
+                                <li>Exfoliates and renews skin</li>
+                                <li>Improves skin texture</li>
+                                <li>Stimulates lymphatic system</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 3,500</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Body Wrap">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Hydrating Body Wrap</h3>
+                            <span class="spa-card-duration">60 minutes</span>
+                            <p class="spa-card-description">A nourishing treatment that moisturizes and rejuvenates the entire body.</p>
+                            <ul class="benefits-list">
+                                <li>Deeply hydrates skin</li>
+                                <li>Detoxifies body</li>
+                                <li>Improves skin elasticity</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 4,200</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Package Treatments -->
+        <div class="spa-category" data-category="package">
+            <h2 class="spa-category-title">Spa Packages</h2>
+            <div class="row">
+                <!-- Card 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Royal Treatment">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Royal Treatment</h3>
+                            <span class="spa-card-duration">3 hours</span>
+                            <p class="spa-card-description">A complete indulgence package including massage, facial, and body treatment.</p>
+                            <ul class="benefits-list">
+                                <li>Full-body massage</li>
+                                <li>Luxury facial</li>
+                                <li>Body scrub and wrap</li>
+                                <li>Complementary refreshments</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 12,000</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="spa-card">
+                        <img src="https://images.unsplash.com/photo-1591348278863-a8fb3887e2aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Couples Retreat">
+                        <div class="spa-card-content">
+                            <h3 class="spa-card-title">Couples Retreat</h3>
+                            <span class="spa-card-duration">2.5 hours</span>
+                            <p class="spa-card-description">A romantic spa experience for couples with side-by-side treatments.</p>
+                            <ul class="benefits-list">
+                                <li>Couples massage</li>
+                                <li>Shared relaxation room</li>
+                                <li>Champagne and chocolates</li>
+                                <li>Private jacuzzi access</li>
+                            </ul>
+                            <div class="spa-card-price">₹ 18,000</div>
+                            <a href="#" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Filter functionality
+            $('.filter-btn').on('click', function() {
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                const filter = $(this).data('filter');
+                
+                if (filter === 'all') {
+                    $('.spa-category').show();
+                } else {
+                    $('.spa-category').hide();
+                    $(`.spa-category[data-category="${filter}"]`).show();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

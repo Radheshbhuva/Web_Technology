@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dining Management - Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary-blue);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent-gold);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .action-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #b8975e;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-color: #ddd;
+            border-bottom-color: white;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .table-container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .table-container h2 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-open {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-closed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-busy {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .btn-action {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        
+        .btn-edit {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-view {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .form-container h2 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--primary-blue);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(198, 170, 118, 0.25);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .menu-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .menu-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        .menu-card-content {
+            flex: 1;
+        }
+        
+        .menu-card-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+        
+        .menu-card-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .menu-card-price {
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+        
+        .menu-card-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .reservation-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .reservation-id {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+        
+        .reservation-status {
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-confirmed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .toggle-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .toggle-sidebar {
+                display: block;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .menu-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .menu-card img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-hotel"></i> Admin Panel</h3>
+                <p>Le Méridien Ahmedabad</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="room_management.html"><i class="fas fa-bed"></i> Room Management</a></li>
+                <li><a href="dining_management.html" class="active"><i class="fas fa-utensils"></i> Dining Management</a></li>
+                <li><a href="spa_management.html"><i class="fas fa-spa"></i> Spa Management</a></li>
+                <li><a href="event_management.html"><i class="fas fa-calendar-alt"></i> Event Management</a></li>
+                <li><a href="gallery_management.html"><i class="fas fa-image"></i> Gallery Management</a></li>
+                <li><a href="offers_management.html"><i class="fas fa-tags"></i> Offers Management</a></li>
+                <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Back to Website</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <button class="toggle-sidebar" id="toggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Dining Management</h1>
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin User">
+                    <div>
+                        <div>Admin User</div>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="restaurants">Restaurants</div>
+                <div class="tab" data-tab="menu">Menu Items</div>
+                <div class="tab" data-tab="reservations">Reservations</div>
+                <div class="tab" data-tab="orders">Today's Orders</div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-primary" id="addRestaurantBtn">
+                    <i class="fas fa-plus"></i> Add Restaurant
+                </button>
+                <button class="btn-primary" id="addMenuItemBtn">
+                    <i class="fas fa-utensils"></i> Add Menu Item
+                </button>
+                <button class="btn-secondary" id="exportDataBtn">
+                    <i class="fas fa-file-export"></i> Export Data
+                </button>
+                <button class="btn-secondary" id="viewReportsBtn">
+                    <i class="fas fa-chart-bar"></i> View Reports
+                </button>
+            </div>
+
+            <div class="tab-content active" id="restaurants-tab">
+                <div class="table-container">
+                    <h2>Restaurants & Dining Venues</h2>
+                    <table id="restaurantsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Opening Hours</th>
+                                <th>Capacity</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Latest Recipe</td>
+                                <td>International Buffet</td>
+                                <td>6:30 AM - 11:00 PM</td>
+                                <td>120</td>
+                                <td><span class="status-badge status-open">Open</span></td>
+                                <td>
+                                    <button class="btn-action btn-view" data-id="1">View</button>
+                                    <button class="btn-action btn-edit" data-id="1">Edit</button>
+                                    <button class="btn-action btn-delete" data-id="1">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bamboo Bay</td>
+                                <td>Asian Cuisine</td>
+                                <td>12:00 PM - 11:30 PM</td>
+                                <td>80</td>
+                                <td><span class="status-badge status-open">Open</span></td>
+                                <td>
+                                    <button class="btn-action btn-view" data-id="2">View</button>
+                                    <button class="btn-action btn-edit" data-id="2">Edit</button>
+                                    <button class="btn-action btn-delete" data-id="2">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Latitude Bar</td>
+                                <td>Bar & Lounge</td>
+                                <td>4:00 PM - 1:00 AM</td>
+                                <td>60</td>
+                                <td><span class="status-badge status-busy">Busy</span></td>
+                                <td>
+                                    <button class="btn-action btn-view" data-id="3">View</button>
+                                    <button class="btn-action btn-edit" data-id="3">Edit</button>
+                                    <button class="btn-action btn-delete" data-id="3">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>The Café</td>
+                                <td>Café</td>
+                                <td>7:00 AM - 10:00 PM</td>
+                                <td>40</td>
+                                <td><span class="status-badge status-open">Open</span></td>
+                                <td>
+                                    <button class="btn-action btn-view" data-id="4">View</button>
+                                    <button class="btn-action btn-edit" data-id="4">Edit</button>
+                                    <button class="btn-action btn-delete" data-id="4">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Poolside Grill</td>
+                                <td>Grill & BBQ</td>
+                                <td>11:00 AM - 7:00 PM</td>
+                                <td>50</td>
+                                <td><span class="status-badge status-closed">Closed</span></td>
+                                <td>
+                                    <button class="btn-action btn-view" data-id="5">View</button>
+                                    <button class="btn-action btn-edit" data-id="5">Edit</button>
+                                    <button class="btn-action btn-delete" data-id="5">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-container" id="restaurantFormContainer" style="display: none;">
+                    <h2 id="restaurantFormTitle">Add New Restaurant</h2>
+                    <form id="restaurantForm">
+                        <input type="hidden" id="restaurantId">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="restaurantName">Restaurant Name</label>
+                                <input type="text" class="form-control" id="restaurantName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="restaurantType">Restaurant Type</label>
+                                <select class="form-control" id="restaurantType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="International Buffet">International Buffet</option>
+                                    <option value="Asian Cuisine">Asian Cuisine</option>
+                                    <option value="Bar & Lounge">Bar & Lounge</option>
+                                    <option value="Café">Café</option>
+                                    <option value="Grill & BBQ">Grill & BBQ</option>
+                                    <option value="Fine Dining">Fine Dining</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="openingTime">Opening Time</label>
+                                <input type="time" class="form-control" id="openingTime" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="closingTime">Closing Time</label>
+                                <input type="time" class="form-control" id="closingTime" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="restaurantCapacity">Capacity</label>
+                                <input type="number" class="form-control" id="restaurantCapacity" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="restaurantStatus">Status</label>
+                                <select class="form-control" id="restaurantStatus" required>
+                                    <option value="Open">Open</option>
+                                    <option value="Closed">Closed</option>
+                                    <option value="Busy">Busy</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="restaurantDescription">Description</label>
+                            <textarea class="form-control" id="restaurantDescription" rows="3" placeholder="Enter restaurant description"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="restaurantImage">Restaurant Image</label>
+                            <input type="file" class="form-control" id="restaurantImage">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Save Restaurant</button>
+                        <button type="button" class="btn-secondary" id="cancelRestaurantForm">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-content" id="menu-tab">
+                <div class="table-container">
+                    <h2>Menu Items</h2>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="menuFilter">Filter by Restaurant:</label>
+                        <select class="form-control" id="menuFilter" style="width: 300px;">
+                            <option value="all">All Restaurants</option>
+                            <option value="Latest Recipe">Latest Recipe</option>
+                            <option value="Bamboo Bay">Bamboo Bay</option>
+                            <option value="Latitude Bar">Latitude Bar</option>
+                            <option value="The Café">The Café</option>
+                            <option value="Poolside Grill">Poolside Grill</option>
+                        </select>
+                    </div>
+                    
+                    <div id="menuItemsContainer">
+                        <div class="menu-card">
+                            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Margherita Pizza">
+                            <div class="menu-card-content">
+                                <div class="menu-card-title">Margherita Pizza</div>
+                                <div class="menu-card-description">Classic pizza with tomato sauce, mozzarella, and fresh basil</div>
+                                <div class="menu-card-price">₹ 650</div>
+                                <div><small>Latest Recipe • Italian</small></div>
+                            </div>
+                            <div class="menu-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-card">
+                            <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Pad Thai">
+                            <div class="menu-card-content">
+                                <div class="menu-card-title">Pad Thai</div>
+                                <div class="menu-card-description">Stir-fried rice noodles with shrimp, tofu, and peanuts</div>
+                                <div class="menu-card-price">₹ 850</div>
+                                <div><small>Bamboo Bay • Thai</small></div>
+                            </div>
+                            <div class="menu-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-card">
+                            <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Signature Cocktail">
+                            <div class="menu-card-content">
+                                <div class="menu-card-title">Signature Cocktail</div>
+                                <div class="menu-card-description">Our special blend of premium spirits and fresh ingredients</div>
+                                <div class="menu-card-price">₹ 750</div>
+                                <div><small>Latitude Bar • Beverages</small></div>
+                            </div>
+                            <div class="menu-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container" id="menuItemFormContainer" style="display: none;">
+                    <h2 id="menuItemFormTitle">Add Menu Item</h2>
+                    <form id="menuItemForm">
+                        <input type="hidden" id="menuItemId">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="itemName">Item Name</label>
+                                <input type="text" class="form-control" id="itemName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="itemRestaurant">Restaurant</label>
+                                <select class="form-control" id="itemRestaurant" required>
+                                    <option value="">Select Restaurant</option>
+                                    <option value="Latest Recipe">Latest Recipe</option>
+                                    <option value="Bamboo Bay">Bamboo Bay</option>
+                                    <option value="Latitude Bar">Latitude Bar</option>
+                                    <option value="The Café">The Café</option>
+                                    <option value="Poolside Grill">Poolside Grill</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="itemCategory">Category</label>
+                                <input type="text" class="form-control" id="itemCategory" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="itemPrice">Price (₹)</label>
+                                <input type="number" class="form-control" id="itemPrice" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="itemDescription">Description</label>
+                            <textarea class="form-control" id="itemDescription" rows="3" placeholder="Enter item description"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="itemImage">Item Image</label>
+                            <input type="file" class="form-control" id="itemImage">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Save Menu Item</button>
+                        <button type="button" class="btn-secondary" id="cancelMenuItemForm">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-content" id="reservations-tab">
+                <div class="table-container">
+                    <h2>Dining Reservations</h2>
+                    <div class="form-row" style="margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label for="reservationDate">Filter by Date:</label>
+                            <input type="date" class="form-control" id="reservationDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="reservationRestaurant">Filter by Restaurant:</label>
+                            <select class="form-control" id="reservationRestaurant">
+                                <option value="all">All Restaurants</option>
+                                <option value="Latest Recipe">Latest Recipe</option>
+                                <option value="Bamboo Bay">Bamboo Bay</option>
+                                <option value="Latitude Bar">Latitude Bar</option>
+                                <option value="The Café">The Café</option>
+                                <option value="Poolside Grill">Poolside Grill</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="reservationsContainer">
+                        <div class="reservation-card">
+                            <div class="reservation-header">
+                                <div class="reservation-id">#DR2023101501</div>
+                                <div class="reservation-status status-confirmed">Confirmed</div>
+                            </div>
+                            <p><strong>Guest:</strong> Rajesh Kumar</p>
+                            <p><strong>Restaurant:</strong> Latest Recipe</p>
+                            <p><strong>Date & Time:</strong> 15 Oct 2023, 7:30 PM</p>
+                            <p><strong>Party Size:</strong> 4 people</p>
+                            <div style="margin-top: 10px;">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Details</button>
+                            </div>
+                        </div>
+                        
+                        <div class="reservation-card">
+                            <div class="reservation-header">
+                                <div class="reservation-id">#DR2023101502</div>
+                                <div class="reservation-status status-pending">Pending</div>
+                            </div>
+                            <p><strong>Guest:</strong> Priya Sharma</p>
+                            <p><strong>Restaurant:</strong> Bamboo Bay</p>
+                            <p><strong>Date & Time:</strong> 15 Oct 2023, 8:00 PM</p>
+                            <p><strong>Party Size:</strong> 2 people</p>
+                            <div style="margin-top: 10px;">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="orders-tab">
+                <div class="table-container">
+                    <h2>Today's Orders</h2>
+                    <table id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Restaurant</th>
+                                <th>Items</th>
+                                <th>Total (₹)</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#DO2023101501</td>
+                                <td>Latest Recipe</td>
+                                <td>2x Margherita Pizza, 1x Garlic Bread</td>
+                                <td>1,550</td>
+                                <td><span class="status-badge status-open">Preparing</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Update</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#DO2023101502</td>
+                                <td>Bamboo Bay</td>
+                                <td>1x Pad Thai, 2x Spring Rolls</td>
+                                <td>1,250</td>
+                                <td><span class="status-badge status-open">Ready</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Update</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#DO2023101503</td>
+                                <td>Latitude Bar</td>
+                                <td>2x Signature Cocktail, 1x Nachos</td>
+                                <td>2,100</td>
+                                <td><span class="status-badge status-open">Served</span></td>
+                                <td>
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Update</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#toggleSidebar').click(function() {
+                $('#sidebar').toggleClass('active');
+            });
+            
+            $('.tab').click(function() {
+                $('.tab').removeClass('active');
+                $(this).addClass('active');
+                
+                const tabId = $(this).data('tab');
+                $('.tab-content').removeClass('active');
+                $(`#${tabId}-tab`).addClass('active');
+            });
+            
+            $('#addRestaurantBtn').click(function() {
+                $('#restaurantFormTitle').text('Add New Restaurant');
+                $('#restaurantForm')[0].reset();
+                $('#restaurantFormContainer').show();
+                $('.tab').removeClass('active');
+                $('.tab-content').removeClass('active');
+                $('.tab[data-tab="restaurants"]').addClass('active');
+                $('#restaurants-tab').addClass('active');
+            });
+            
+            $('#cancelRestaurantForm').click(function() {
+                $('#restaurantFormContainer').hide();
+            });
+            
+            $('#addMenuItemBtn').click(function() {
+                $('#menuItemFormTitle').text('Add Menu Item');
+                $('#menuItemForm')[0].reset();
+                $('#menuItemFormContainer').show();
+                $('.tab').removeClass('active');
+                $('.tab-content').removeClass('active');
+                $('.tab[data-tab="menu"]').addClass('active');
+                $('#menu-tab').addClass('active');
+            });
+            
+            $('#cancelMenuItemForm').click(function() {
+                $('#menuItemFormContainer').hide();
+            });
+            
+            $('#restaurantForm').submit(function(e) {
+                e.preventDefault();
+                alert('Restaurant saved successfully!');
+                $('#restaurantFormContainer').hide();
+            });
+            
+            $('#menuItemForm').submit(function(e) {
+                e.preventDefault();
+                alert('Menu item saved successfully!');
+                $('#menuItemFormContainer').hide();
+            });
+            
+            $('#exportDataBtn').click(function() {
+                alert('Data exported successfully!');
+            });
+            
+            $('#viewReportsBtn').click(function() {
+                alert('Opening reports dashboard...');
+            });
+            
+            $('.btn-view[data-id]').click(function() {
+                const restaurantId = $(this).data('id');
+                alert(`Viewing details for restaurant ID: ${restaurantId}`);
+            });
+            
+            $('.btn-edit[data-id]').click(function() {
+                const restaurantId = $(this).data('id');
+                $('#restaurantFormTitle').text('Edit Restaurant');
+                $('#restaurantFormContainer').show();
+            });
+            
+            $('.btn-delete[data-id]').click(function() {
+                const restaurantId = $(this).data('id');
+                if (confirm('Are you sure you want to delete this restaurant?')) {
+                    alert(`Restaurant ${restaurantId} deleted successfully!`);
+                }
+            });
+            
+            $('.menu-card .btn-edit').click(function() {
+                $('#menuItemFormTitle').text('Edit Menu Item');
+                $('#menuItemFormContainer').show();
+            });
+            
+            $('.menu-card .btn-delete').click(function() {
+                if (confirm('Are you sure you want to delete this menu item?')) {
+                    alert('Menu item deleted successfully!');
+                }
+            });
+            
+            $('#menuFilter').change(function() {
+                const restaurant = $(this).val();
+                if (restaurant === 'all') {
+                    $('.menu-card').show();
+                } else {
+                    $('.menu-card').hide();
+                    $(`.menu-card:contains(${restaurant})`).show();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

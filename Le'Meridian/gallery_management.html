@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Management - Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary-blue);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent-gold);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #b8975e;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-color: #ddd;
+            border-bottom-color: white;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .gallery-item {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .gallery-item-content {
+            padding: 15px;
+        }
+        
+        .gallery-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+        
+        .gallery-item-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .gallery-item-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-action {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        
+        .btn-edit {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-view {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        /* Album Card */
+        .album-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .album-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .album-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .album-card-content {
+            padding: 15px;
+        }
+        
+        .album-card-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+        
+        .album-card-count {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .album-card-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        /* Form Styles */
+        .form-container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .form-container h2 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--primary-blue);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(198, 170, 118, 0.25);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--accent-gold);
+            background-color: rgba(198, 170, 118, 0.05);
+        }
+        
+        .upload-area i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .upload-area.active {
+            border-color: var(--accent-gold);
+            background-color: rgba(198, 170, 118, 0.1);
+        }
+        
+        /* Preview Grid */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .preview-item {
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+        
+        .preview-item-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(220, 53, 69, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* Toggle Button for Mobile */
+        .toggle-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .toggle-sidebar {
+                display: block;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-hotel"></i> Admin Panel</h3>
+                <p>Le Méridien Ahmedabad</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="room-management.html"><i class="fas fa-bed"></i> Room Management</a></li>
+                <li><a href="dining-management.html"><i class="fas fa-utensils"></i> Dining Management</a></li>
+                <li><a href="spa-management.html"><i class="fas fa-spa"></i> Spa Management</a></li>
+                <li><a href="event-management.html"><i class="fas fa-calendar-alt"></i> Event Management</a></li>
+                <li><a href="gallery_management.html" class="active"><i class="fas fa-image"></i> Gallery Management</a></li>
+                <li><a href="offers_management.html"><i class="fas fa-tags"></i> Offers Management</a></li>
+                <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Back to Website</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="toggle-sidebar" id="toggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Gallery Management</h1>
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin User">
+                    <div>
+                        <div>Admin User</div>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="images">Images</div>
+                <div class="tab" data-tab="albums">Albums</div>
+                <div class="tab" data-tab="upload">Upload</div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn-primary" id="uploadImagesBtn">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload Images
+                </button>
+                <button class="btn-primary" id="createAlbumBtn">
+                    <i class="fas fa-folder-plus"></i> Create Album
+                </button>
+                <button class="btn-secondary" id="organizeBtn">
+                    <i class="fas fa-layer-group"></i> Organize Gallery
+                </button>
+                <button class="btn-secondary" id="bulkActionsBtn">
+                    <i class="fas fa-tasks"></i> Bulk Actions
+                </button>
+            </div>
+
+            <!-- Images Tab -->
+            <div class="tab-content active" id="images-tab">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="imageFilter">Filter by Category:</label>
+                    <select class="form-control" id="imageFilter" style="width: 300px;">
+                        <option value="all">All Categories</option>
+                        <option value="rooms">Rooms & Suites</option>
+                        <option value="dining">Dining</option>
+                        <option value="spa">Spa & Wellness</option>
+                        <option value="events">Events</option>
+                        <option value="facilities">Hotel Facilities</option>
+                    </select>
+                </div>
+                
+                <div class="gallery-grid" id="imagesContainer">
+                    <!-- Image cards will be loaded here -->
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Luxury Suite">
+                        <div class="gallery-item-content">
+                            <div class="gallery-item-title">Luxury Suite</div>
+                            <div class="gallery-item-details">Rooms & Suites • 2.5MB • 1920x1080</div>
+                            <div class="gallery-item-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Preview</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Restaurant Interior">
+                        <div class="gallery-item-content">
+                            <div class="gallery-item-title">Restaurant Interior</div>
+                            <div class="gallery-item-details">Dining • 3.1MB • 1920x1080</div>
+                            <div class="gallery-item-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Preview</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Spa Treatment">
+                        <div class="gallery-item-content">
+                            <div class="gallery-item-title">Spa Treatment Room</div>
+                            <div class="gallery-item-details">Spa & Wellness • 2.8MB • 1920x1080</div>
+                            <div class="gallery-item-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Preview</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Wedding Event">
+                        <div class="gallery-item-content">
+                            <div class="gallery-item-title">Wedding Reception</div>
+                            <div class="gallery-item-details">Events • 4.2MB • 1920x1080</div>
+                            <div class="gallery-item-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Preview</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Pool Area">
+                        <div class="gallery-item-content">
+                            <div class="gallery-item-title">Infinity Pool</div>
+                            <div class="gallery-item-details">Hotel Facilities • 3.5MB • 1920x1080</div>
+                            <div class="gallery-item-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Preview</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1584132915807-fd1f5fbc078f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hotel Lobby">
+                        <div class="gallery-item-content">
+                            <div class="gallery-item-title">Grand Lobby</div>
+                            <div class="gallery-item-details">Hotel Facilities • 3.9MB • 1920x1080</div>
+                            <div class="gallery-item-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">Preview</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Albums Tab -->
+            <div class="tab-content" id="albums-tab">
+                <div class="gallery-grid" id="albumsContainer">
+                    <!-- Album cards will be loaded here -->
+                    <div class="album-card">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Rooms & Suites">
+                        <div class="album-card-content">
+                            <div class="album-card-title">Rooms & Suites</div>
+                            <div class="album-card-count">24 images</div>
+                            <div class="album-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">View</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Dining">
+                        <div class="album-card-content">
+                            <div class="album-card-title">Dining</div>
+                            <div class="album-card-count">18 images</div>
+                            <div class="album-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">View</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Spa & Wellness">
+                        <div class="album-card-content">
+                            <div class="album-card-title">Spa & Wellness</div>
+                            <div class="album-card-count">15 images</div>
+                            <div class="album-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">View</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Events">
+                        <div class="album-card-content">
+                            <div class="album-card-title">Events</div>
+                            <div class="album-card-count">32 images</div>
+                            <div class="album-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">View</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Facilities">
+                        <div class="album-card-content">
+                            <div class="album-card-title">Hotel Facilities</div>
+                            <div class="album-card-count">22 images</div>
+                            <div class="album-card-actions">
+                                <button class="btn-action btn-edit">Edit</button>
+                                <button class="btn-action btn-view">View</button>
+                                <button class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add/Edit Album Form -->
+                <div class="form-container" id="albumFormContainer" style="display: none;">
+                    <h2 id="albumFormTitle">Create New Album</h2>
+                    <form id="albumForm">
+                        <input type="hidden" id="albumId">
+                        
+                        <div class="form-group">
+                            <label for="albumName">Album Name</label>
+                            <input type="text" class="form-control" id="albumName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="albumDescription">Album Description</label>
+                            <textarea class="form-control" id="albumDescription" rows="3" placeholder="Enter album description"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="albumCategory">Category</label>
+                            <select class="form-control" id="albumCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="rooms">Rooms & Suites</option>
+                                <option value="dining">Dining</option>
+                                <option value="spa">Spa & Wellness</option>
+                                <option value="events">Events</option>
+                                <option value="facilities">Hotel Facilities</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="albumCover">Album Cover Image</label>
+                            <input type="file" class="form-control" id="albumCover">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Save Album</button>
+                        <button type="button" class="btn-secondary" id="cancelAlbumForm">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Upload Tab -->
+            <div class="tab-content" id="upload-tab">
+                <div class="form-container">
+                    <h2>Upload Images</h2>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Drag & Drop Images Here</h3>
+                        <p>or click to browse files</p>
+                        <p class="text-muted">Supported formats: JPG, PNG, GIF (Max 10MB per image)</p>
+                        <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="uploadCategory">Category:</label>
+                        <select class="form-control" id="uploadCategory">
+                            <option value="">Select Category</option>
+                            <option value="rooms">Rooms & Suites</option>
+                            <option value="dining">Dining</option>
+                            <option value="spa">Spa & Wellness</option>
+                            <option value="events">Events</option>
+                            <option value="facilities">Hotel Facilities</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="uploadAlbum">Add to Album (optional):</label>
+                        <select class="form-control" id="uploadAlbum">
+                            <option value="">Select Album</option>
+                            <option value="rooms">Rooms & Suites</option>
+                            <option value="dining">Dining</option>
+                            <option value="spa">Spa & Wellness</option>
+                            <option value="events">Events</option>
+                            <option value="facilities">Hotel Facilities</option>
+                        </select>
+                    </div>
+                    
+                    <div id="previewContainer" style="display: none;">
+                        <h4>Selected Images (5)</h4>
+                        <div class="preview-grid" id="imagePreviews">
+                            <!-- Image previews will be added here -->
+                        </div>
+                        
+                        <button type="button" class="btn-primary" id="startUploadBtn">
+                            <i class="fas fa-upload"></i> Upload Images
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Toggle sidebar on mobile
+            $('#toggleSidebar').click(function() {
+                $('#sidebar').toggleClass('active');
+            });
+            
+            // Tab functionality
+            $('.tab').click(function() {
+                var tabId = $(this).data('tab');
+                
+                // Remove active class from all tabs and tab contents
+                $('.tab').removeClass('active');
+                $('.tab-content').removeClass('active');
+                
+                // Add active class to clicked tab and corresponding content
+                $(this).addClass('active');
+                $('#' + tabId + '-tab').addClass('active');
+            });
+            
+            // Show album form
+            $('#createAlbumBtn').click(function() {
+                $('#albumFormContainer').show();
+                $('#albumFormTitle').text('Create New Album');
+                $('#albumForm')[0].reset();
+                $('#albumId').val('');
+            });
+            
+            // Cancel album form
+            $('#cancelAlbumForm').click(function() {
+                $('#albumFormContainer').hide();
+            });
+            
+            // Album form submission
+            $('#albumForm').submit(function(e) {
+                e.preventDefault();
+                // Here you would typically send the data to a server
+                alert('Album saved successfully!');
+                $('#albumFormContainer').hide();
+                // In a real application, you would update the albums list here
+            });
+            
+            // Upload area functionality
+            $('#uploadArea').click(function() {
+                $('#fileInput').click();
+            });
+            
+            $('#fileInput').change(function() {
+                handleFileSelection(this.files);
+            });
+            
+            // Drag and drop functionality
+            $('#uploadArea').on('dragover', function(e) {
+                e.preventDefault();
+                $(this).addClass('active');
+            });
+            
+            $('#uploadArea').on('dragleave', function() {
+                $(this).removeClass('active');
+            });
+            
+            $('#uploadArea').on('drop', function(e) {
+                e.preventDefault();
+                $(this).removeClass('active');
+                handleFileSelection(e.originalEvent.dataTransfer.files);
+            });
+            
+            // Start upload
+            $('#startUploadBtn').click(function() {
+                // Here you would typically upload the files to a server
+                alert('Images uploaded successfully!');
+                $('#previewContainer').hide();
+                $('#uploadArea').show();
+                $('#imagePreviews').empty();
+            });
+            
+            // Filter images by category
+            $('#imageFilter').change(function() {
+                var filterValue = $(this).val();
+                // In a real application, you would filter the images here
+                console.log('Filtering images by: ' + filterValue);
+            });
+            
+            // Organize gallery
+            $('#organizeBtn').click(function() {
+                alert('Opening gallery organizer...');
+                // In a real application, you would open a modal or new view for organizing
+            });
+            
+            // Bulk actions
+            $('#bulkActionsBtn').click(function() {
+                alert('Opening bulk actions menu...');
+                // In a real application, you would open a menu for bulk operations
+            });
+            
+            // Upload images button
+            $('#uploadImagesBtn').click(function() {
+                // Switch to upload tab
+                $('.tab').removeClass('active');
+                $('.tab-content').removeClass('active');
+                $('.tab[data-tab="upload"]').addClass('active');
+                $('#upload-tab').addClass('active');
+            });
+            
+            // Function to handle file selection
+            function handleFileSelection(files) {
+                if (files.length > 0) {
+                    $('#uploadArea').hide();
+                    $('#previewContainer').show();
+                    
+                    // Clear previous previews
+                    $('#imagePreviews').empty();
+                    
+                    // Add new previews
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(e) {
+                            const previewItem = $('<div class="preview-item">');
+                            previewItem.html(`
+                                <img src="${e.target.result}" alt="${file.name}">
+                                <button class="preview-item-remove" data-index="${i}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            `);
+                            
+                            $('#imagePreviews').append(previewItem);
+                        };
+                        
+                        reader.readAsDataURL(file);
+                    }
+                    
+                    // Update the count
+                    $('#previewContainer h4').text(`Selected Images (${files.length})`);
+                }
+            }
+            
+            // Remove image from preview
+            $(document).on('click', '.preview-item-remove', function() {
+                $(this).closest('.preview-item').remove();
+                
+                const remaining = $('.preview-item').length;
+                $('#previewContainer h4').text(`Selected Images (${remaining})`);
+                
+                if (remaining === 0) {
+                    $('#previewContainer').hide();
+                    $('#uploadArea').show();
+                }
+            });
+            
+            // Edit image buttons
+            $('.btn-edit').click(function() {
+                // In a real application, you would open an edit modal
+                alert('Edit image functionality would open here');
+            });
+            
+            // Delete image buttons
+            $('.btn-delete').click(function() {
+                if (confirm('Are you sure you want to delete this image?')) {
+                    // In a real application, you would send a delete request to the server
+                    $(this).closest('.gallery-item, .album-card').fadeOut();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

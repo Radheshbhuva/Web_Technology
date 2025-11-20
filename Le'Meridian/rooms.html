@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Méridien Ahmedabad - Rooms & Suites</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            padding-top: 80px;
+            /* Added for fixed navbar */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Header/Navigation Styles */
+        .navbar {
+            background-color: var(--primary-blue);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 30px;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--accent-gold);
+        }
+
+        .btn-gold {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+
+        .btn-gold:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+        }
+
+        .page-hero {
+            height: 40vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(0, 38, 58, 0.7), rgba(0, 38, 58, 0.7)), url('https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=800&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .rooms-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-gold);
+        }
+
+        .room-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+            background: white;
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .room-card img {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .room-card-content {
+            padding: 25px;
+        }
+
+        .room-card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        .room-card-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .room-features {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .room-feature {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .room-feature i {
+            color: var(--accent-gold);
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        .room-price {
+            font-size: 1.6rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .price-note {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .btn-book {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-book:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+            padding: 12px 25px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .room-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-gold);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            margin: 0 5px 10px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background-color: var(--accent-gold);
+            color: white;
+            border-color: var(--accent-gold);
+        }
+
+        .services-section {
+            background-color: var(--light-gray);
+            padding: 80px 0;
+            margin-top: 60px;
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 992px) {
+            .navbar-nav {
+                margin-top: 15px;
+            }
+
+            .navbar-nav .nav-link {
+                margin: 5px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .room-card {
+                margin-bottom: 20px;
+            }
+
+            .room-feature {
+                margin-right: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">LE MERIDIEN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="rooms.html">Rooms & Suites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link" href="spa.html">Spa & Wellness</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Meetings & Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+                </ul>
+                <div class="d-flex">
+                    <a href="book_now.html" class="btn btn-gold">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Rooms & Suites</h1>
+            <p class="lead">Experience unparalleled luxury and comfort in our thoughtfully designed accommodations</p>
+        </div>
+    </section>
+
+    <div class="rooms-container">
+        <!-- Introduction -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Luxurious Accommodations</h2>
+                <p>Discover our collection of meticulously designed rooms and suites, each offering a perfect blend of
+                    contemporary elegance and timeless comfort. Experience the signature Le Méridien style with locally
+                    inspired touches.</p>
+            </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Rooms</button>
+            <button class="filter-btn" data-filter="room">Rooms</button>
+            <button class="filter-btn" data-filter="suite">Suites</button>
+            <button class="filter-btn" data-filter="premium">Premium</button>
+        </div>
+
+        <!-- Room Cards -->
+        <div class="row">
+            <!-- Deluxe Room Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="room-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Deluxe Room">
+                        <span class="room-badge">Most Popular</span>
+                    </div>
+                    <div class="room-card-content">
+                        <h3 class="room-card-title">Deluxe Room</h3>
+                        <p class="room-card-description">Spacious and elegantly appointed room with modern amenities and
+                            stunning city views.</p>
+
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i> 2 Guests
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-ruler-combined"></i> 42 m²
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i> King Bed
+                            </div>
+                        </div>
+
+                        <div class="room-price">₹ 8,500 <span style="font-size: 1rem; font-weight: normal;">/
+                                night</span></div>
+                        <p class="price-note">Exclusive of taxes and fees</p>
+
+                        <a href="#" class="btn-book">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Executive Suite Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="room-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Executive Suite">
+                    </div>
+                    <div class="room-card-content">
+                        <h3 class="room-card-title">Executive Suite</h3>
+                        <p class="room-card-description">Luxurious suite with separate living area, premium amenities
+                            and panoramic city views.</p>
+
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i> 3 Guests
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-ruler-combined"></i> 78 m²
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i> King Bed + Sofa Bed
+                            </div>
+                        </div>
+
+                        <div class="room-price">₹ 14,500 <span style="font-size: 1rem; font-weight: normal;">/
+                                night</span></div>
+                        <p class="price-note">Exclusive of taxes and fees</p>
+
+                        <a href="#" class="btn-book">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Presidential Suite Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="room-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Presidential Suite">
+                        <span class="room-badge">Premium</span>
+                    </div>
+                    <div class="room-card-content">
+                        <h3 class="room-card-title">Presidential Suite</h3>
+                        <p class="room-card-description">The ultimate in luxury with expansive living areas, premium
+                            amenities, and exclusive access.</p>
+
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i> 4 Guests
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-ruler-combined"></i> 120 m²
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i> King Bed + 2 Singles
+                            </div>
+                        </div>
+
+                        <div class="room-price">₹ 25,000 <span style="font-size: 1rem; font-weight: normal;">/
+                                night</span></div>
+                        <p class="price-note">Exclusive of taxes and fees</p>
+
+                        <a href="#" class="btn-book">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Club Room Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="room-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Club Room">
+                    </div>
+                    <div class="room-card-content">
+                        <h3 class="room-card-title">Club Room</h3>
+                        <p class="room-card-description">Enhanced room experience with exclusive access to the Club
+                            Lounge and premium benefits.</p>
+
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i> 2 Guests
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-ruler-combined"></i> 45 m²
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i> King Bed
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-crown"></i> Lounge Access
+                            </div>
+                        </div>
+
+                        <div class="room-price">₹ 11,200 <span style="font-size: 1rem; font-weight: normal;">/
+                                night</span></div>
+                        <p class="price-note">Exclusive of taxes and fees</p>
+
+                        <a href="book_now.html" class="btn-book">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Family Suite Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="room-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Family Suite">
+                        <span class="room-badge">Family Friendly</span>
+                    </div>
+                    <div class="room-card-content">
+                        <h3 class="room-card-title">Family Suite</h3>
+                        <p class="room-card-description">Spacious suite designed for families with separate sleeping and
+                            living areas.</p>
+
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i> 4 Guests
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-ruler-combined"></i> 85 m²
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i> King Bed + 2 Singles
+                            </div>
+                        </div>
+
+                        <div class="room-price">₹ 16,800 <span style="font-size: 1rem; font-weight: normal;">/
+                                night</span></div>
+                        <p class="price-note">Exclusive of taxes and fees</p>
+
+                        <a href="#" class="btn-book">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heritage Room Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="room-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Heritage Room">
+                        <span class="room-badge">Local Experience</span>
+                    </div>
+                    <div class="room-card-content">
+                        <h3 class="room-card-title">Heritage Room</h3>
+                        <p class="room-card-description">A culturally inspired room featuring traditional Gujarati
+                            design elements and craftsmanship.</p>
+
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i> 2 Guests
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-ruler-combined"></i> 48 m²
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i> King Bed
+                            </div>
+                        </div>
+
+                        <div class="room-price">₹ 9,800 <span style="font-size: 1rem; font-weight: normal;">/
+                                night</span></div>
+                        <p class="price-note">Exclusive of taxes and fees</p>
+
+                        <a href="book_now.html" class="btn-book">Book Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Section -->
+        <section class="services-section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Room Amenities & Services</h2>
+                    <p class="text-muted">Premium services and amenities for a comfortable stay</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="service-icon">
+                                <i class="fas fa-concierge-bell"></i>
+                            </div>
+                            <h4>24/7 Room Service</h4>
+                            <p>Round-the-clock dining with our extensive in-room menu</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="service-icon">
+                                <i class="fas fa-wifi"></i>
+                            </div>
+                            <h4>High-Speed Internet</h4>
+                            <p>Complimentary WiFi throughout your stay</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="service-icon">
+                                <i class="fas fa-spa"></i>
+                            </div>
+                            <h4>Luxury Toiletries</h4>
+                            <p>Premium bathroom amenities for your comfort</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="service-icon">
+                                <i class="fas fa-tv"></i>
+                            </div>
+                            <h4>Entertainment</h4>
+                            <p>Smart TV with international channels and streaming services</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="service-icon">
+                                <i class="fas fa-snowflake"></i>
+                            </div>
+                            <h4>Climate Control</h4>
+                            <p>Individual temperature control in all rooms</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="service-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4>Safety Features</h4>
+                            <p>In-room safe and advanced security systems</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Filter functionality
+            $('.filter-btn').on('click', function () {
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+
+                const filter = $(this).data('filter');
+
+                if (filter === 'all') {
+                    $('.room-card').parent().show();
+                } else {
+                    $('.room-card').parent().hide();
+                    // In a real implementation, you would filter based on room category
+                    $('.room-card').parent().show(); // For demo purposes, show all
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Méridien Ahmedabad - Meetings & Events</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            padding-top: 80px; /* Added for fixed navbar */
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Header/Navigation Styles */
+        .navbar {
+            background-color: var(--primary-blue);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 30px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            color: var(--accent-gold);
+        }
+        
+        .btn-gold {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn-gold:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+        }
+        
+        .page-hero {
+            height: 40vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(0, 38, 58, 0.7), rgba(0, 38, 58, 0.7)), url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=800&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .events-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-gold);
+        }
+        
+        .event-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+            background: white;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .event-card img {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .event-card-content {
+            padding: 25px;
+        }
+        
+        .event-card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+        
+        .event-card-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .event-features {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .event-feature {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .event-feature i {
+            color: var(--accent-gold);
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .event-capacity {
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .btn-event {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-event:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+            padding: 12px 25px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        
+        .event-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-gold);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            margin: 0 5px 10px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--accent-gold);
+            color: white;
+            border-color: var(--accent-gold);
+        }
+        
+        .services-section {
+            background-color: var(--light-gray);
+            padding: 80px 0;
+            margin-top: 60px;
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 992px) {
+            .navbar-nav {
+                margin-top: 15px;
+            }
+            
+            .navbar-nav .nav-link {
+                margin: 5px 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .event-card {
+                margin-bottom: 20px;
+            }
+            
+            .event-feature {
+                margin-right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">LE MERIDIEN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rooms.html">Rooms & Suites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link" href="spa.html">Spa & Wellness</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="events.html">Meetings & Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+                </ul>
+                <div class="d-flex">
+                    <a href="booking.html" class="btn btn-gold">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Meetings & Events</h1>
+            <p class="lead">Exceptional venues for memorable gatherings and productive meetings</p>
+        </div>
+    </section>
+
+    <div class="events-container">
+        <!-- Introduction -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Event Spaces</h2>
+                <p>Discover our versatile event venues, equipped with state-of-the-art technology and supported by our professional event planning team. From intimate board meetings to grand weddings, we create unforgettable experiences.</p>
+            </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Events</button>
+            <button class="filter-btn" data-filter="meeting">Meetings</button>
+            <button class="filter-btn" data-filter="wedding">Weddings</button>
+            <button class="filter-btn" data-filter="corporate">Corporate Events</button>
+        </div>
+
+        <!-- Event Cards -->
+        <div class="row">
+            <!-- Grand Ballroom Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Grand Ballroom">
+                        <span class="event-badge">Popular</span>
+                    </div>
+                    <div class="event-card-content">
+                        <h3 class="event-card-title">Grand Ballroom</h3>
+                        <p class="event-card-description">An elegant space for large gatherings, weddings, and galas with customizable layouts and premium amenities.</p>
+                        
+                        <div class="event-features">
+                            <div class="event-feature">
+                                <i class="fas fa-users"></i> Up to 500 Guests
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-ruler-combined"></i> 650 m²
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-chalkboard"></i> HD Projection
+                            </div>
+                        </div>
+                        
+                        <div class="event-capacity">Capacity: 500 guests</div>
+                        
+                        <a href="#" class="btn-event">Inquire Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Executive Boardroom Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Executive Boardroom">
+                    </div>
+                    <div class="event-card-content">
+                        <h3 class="event-card-title">Executive Boardroom</h3>
+                        <p class="event-card-description">A sophisticated space for executive meetings and decision-making with premium technology and comfort.</p>
+                        
+                        <div class="event-features">
+                            <div class="event-feature">
+                                <i class="fas fa-users"></i> Up to 24 Guests
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-ruler-combined"></i> 85 m²
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-video"></i> Video Conferencing
+                            </div>
+                        </div>
+                        
+                        <div class="event-capacity">Capacity: 24 guests</div>
+                        
+                        <a href="#" class="btn-event">Inquire Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Garden Pavilion Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Garden Pavilion">
+                        <span class="event-badge">Outdoor</span>
+                    </div>
+                    <div class="event-card-content">
+                        <h3 class="event-card-title">Garden Pavilion</h3>
+                        <p class="event-card-description">A beautiful outdoor venue surrounded by lush gardens, perfect for ceremonies and cocktail receptions.</p>
+                        
+                        <div class="event-features">
+                            <div class="event-feature">
+                                <i class="fas fa-users"></i> Up to 200 Guests
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-leaf"></i> Garden Setting
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-utensils"></i> Catering Options
+                            </div>
+                        </div>
+                        
+                        <div class="event-capacity">Capacity: 200 guests</div>
+                        
+                        <a href="#" class="btn-event">Inquire Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conference Center Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Conference Center">
+                    </div>
+                    <div class="event-card-content">
+                        <h3 class="event-card-title">Conference Center</h3>
+                        <p class="event-card-description">A versatile space for seminars, workshops, and corporate events with flexible configuration options.</p>
+                        
+                        <div class="event-features">
+                            <div class="event-feature">
+                                <i class="fas fa-users"></i> Up to 150 Guests
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-ruler-combined"></i> 300 m²
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-wifi"></i> High-Speed Internet
+                            </div>
+                        </div>
+                        
+                        <div class="event-capacity">Capacity: 150 guests</div>
+                        
+                        <a href="#" class="btn-event">Inquire Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Poolside Venue Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Poolside Venue">
+                        <span class="event-badge">Scenic</span>
+                    </div>
+                    <div class="event-card-content">
+                        <h3 class="event-card-title">Poolside Venue</h3>
+                        <p class="event-card-description">A stunning setting by the pool for casual gatherings, parties, and networking events with a relaxed atmosphere.</p>
+                        
+                        <div class="event-features">
+                            <div class="event-feature">
+                                <i class="fas fa-users"></i> Up to 100 Guests
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-swimming-pool"></i> Pool Access
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-cocktail"></i> Bar Service
+                            </div>
+                        </div>
+                        
+                        <div class="event-capacity">Capacity: 100 guests</div>
+                        
+                        <a href="#" class="btn-event">Inquire Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Meeting Room Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Meeting Room">
+                    </div>
+                    <div class="event-card-content">
+                        <h3 class="event-card-title">Executive Meeting Room</h3>
+                        <p class="event-card-description">A well-appointed space for small meetings, presentations, and brainstorming sessions with modern amenities.</p>
+                        
+                        <div class="event-features">
+                            <div class="event-feature">
+                                <i class="fas fa-users"></i> Up to 16 Guests
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-ruler-combined"></i> 45 m²
+                            </div>
+                            <div class="event-feature">
+                                <i class="fas fa-tv"></i> Smart Screen
+                            </div>
+                        </div>
+                        
+                        <div class="event-capacity">Capacity: 16 guests</div>
+                        
+                        <a href="#" class="btn-event">Inquire Now</a>
+                        <a href="#" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Section -->
+        <section class="services-section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Event Services</h2>
+                    <p class="text-muted">Comprehensive support for seamless and successful events</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="service-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <h4>Catering Services</h4>
+                            <p>Customized menus from our expert culinary team for any type of event</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="service-icon">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <h4>AV Equipment</h4>
+                            <p>State-of-the-art audio visual equipment and technical support</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="service-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <h4>Event Planning</h4>
+                            <p>Dedicated event planners to handle every detail of your occasion</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Filter functionality
+            $('.filter-btn').on('click', function() {
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                const filter = $(this).data('filter');
+                
+                if (filter === 'all') {
+                    $('.event-card').parent().show();
+                } else {
+                    $('.event-card').parent().hide();
+                    // In a real implementation, you would filter based on event category
+                    $('.event-card').parent().show(); // For demo purposes, show all
+                }
+            });
+        });
+    </script>
+</body>
+</html>

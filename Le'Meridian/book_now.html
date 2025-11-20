@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Méridien Ahmedabad - Book Now</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #00263A;
+            --accent-gold: #C6AA76;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            padding-top: 80px; /* Added for fixed navbar */
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Header/Navigation Styles */
+        .navbar {
+            background-color: var(--primary-blue);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 30px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            color: var(--accent-gold);
+        }
+        
+        .btn-gold {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn-gold:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+        }
+        
+        .page-hero {
+            height: 40vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(0, 38, 58, 0.7), rgba(0, 38, 58, 0.7)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=800&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-gold);
+        }
+        
+        .booking-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+            background: white;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .booking-card img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .booking-card-content {
+            padding: 25px;
+        }
+        
+        .booking-card-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+        
+        .booking-card-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .booking-features {
+            margin-bottom: 20px;
+        }
+        
+        .booking-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .booking-feature i {
+            color: var(--accent-gold);
+            margin-right: 10px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .booking-price {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .price-note {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        
+        .btn-book {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-book:hover {
+            background-color: #b8975e;
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .booking-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-gold);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            margin: 0 5px 10px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--accent-gold);
+            color: white;
+            border-color: var(--accent-gold);
+        }
+        
+        .booking-category {
+            margin-bottom: 60px;
+        }
+        
+        .booking-category-title {
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        @media (max-width: 992px) {
+            .navbar-nav {
+                margin-top: 15px;
+            }
+            
+            .navbar-nav .nav-link {
+                margin: 5px 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .booking-card {
+                margin-bottom: 20px;
+            }
+        }
+        
+        /* Booking Form Styles */
+        .booking-form {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-blue);
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 0.2rem rgba(198, 170, 118, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">LE MERIDIEN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rooms.html">Rooms & Suites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link" href="spa.html">Spa & Wellness</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Meetings & Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="book_now.html">Book Now</a></li>
+                </ul>
+                <div class="d-flex">
+                    <a href="book_now.html" class="btn btn-gold">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Book Your Experience</h1>
+            <p class="lead">Reserve your stay, dining, spa treatments, and events in one place</p>
+        </div>
+    </section>
+
+    <div class="booking-container">
+        <!-- Booking Form -->
+        <div class="booking-form">
+            <h2 class="section-title">Booking Details</h2>
+            <form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Booking Category</label>
+                        <select class="form-select" id="bookingCategory">
+                            <option value="all">All Categories</option>
+                            <option value="rooms">Rooms & Suites</option>
+                            <option value="dining">Dining</option>
+                            <option value="spa">Spa & Wellness</option>
+                            <option value="events">Meetings & Events</option>
+                            <option value="offers">Special Offers</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Booking Date</label>
+                        <input type="date" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="form-label">Special Requests</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Bookings</button>
+            <button class="filter-btn" data-filter="rooms">Rooms & Suites</button>
+            <button class="filter-btn" data-filter="dining">Dining</button>
+            <button class="filter-btn" data-filter="spa">Spa & Wellness</button>
+            <button class="filter-btn" data-filter="events">Meetings & Events</button>
+            <button class="filter-btn" data-filter="offers">Special Offers</button>
+        </div>
+
+        <!-- Rooms & Suites Category -->
+        <div class="booking-category" data-category="rooms">
+            <h2 class="booking-category-title">Rooms & Suites</h2>
+            <div class="row">
+                <!-- Deluxe Room -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Deluxe Room">
+                            <span class="booking-badge">Popular</span>
+                        </div>
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Deluxe Room</h3>
+                            <p class="booking-card-description">Spacious and elegantly appointed room with modern amenities and stunning city views.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-user"></i> 2 Guests
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-ruler-combined"></i> 42 m²
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-bed"></i> King Bed
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 8,500 <span style="font-size: 1rem; font-weight: normal;">/ night</span></div>
+                            <p class="price-note">Exclusive of taxes and fees</p>
+                            
+                            <a href="book_now.html" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Executive Suite -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Executive Suite">
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Executive Suite</h3>
+                            <p class="booking-card-description">Luxurious suite with separate living area, premium amenities, and panoramic city views.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-user"></i> 3 Guests
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-ruler-combined"></i> 78 m²
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-bed"></i> King Bed + Sofa Bed
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 14,500 <span style="font-size: 1rem; font-weight: normal;">/ night</span></div>
+                            <p class="price-note">Exclusive of taxes and fees</p>
+                            
+                            <a href="book_now.html" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Presidential Suite -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Presidential Suite">
+                            <span class="booking-badge">Premium</span>
+                        </div>
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Presidential Suite</h3>
+                            <p class="booking-card-description">The ultimate in luxury with expansive living areas, premium amenities, and exclusive access.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-user"></i> 4 Guests
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-ruler-combined"></i> 120 m²
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-bed"></i> King Bed + 2 Singles
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 25,000 <span style="font-size: 1rem; font-weight: normal;">/ night</span></div>
+                            <p class="price-note">Exclusive of taxes and fees</p>
+                            
+                            <a href="book_now.html" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dining Category -->
+        <div class="booking-category" data-category="dining">
+            <h2 class="booking-category-title">Dining Experiences</h2>
+            <div class="row">
+                <!-- Latest Recipe -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Latest Recipe">
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Latest Recipe</h3>
+                            <p class="booking-card-description">International buffet restaurant offering live cooking stations and global cuisine.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-clock"></i> 6:30 AM - 11:00 PM
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-utensils"></i> Buffet & À la carte
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-user"></i> All ages welcome
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">From ₹ 1,800 <span style="font-size: 1rem; font-weight: normal;">/ person</span></div>
+                            <p class="price-note">For dinner buffet</p>
+                            
+                            <a href="book_now.html" class="btn-book">Reserve Table</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bamboo Bay -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Bamboo Bay">
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Bamboo Bay</h3>
+                            <p class="booking-card-description">Asian specialty restaurant featuring authentic Chinese, Thai, and Japanese dishes.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-clock"></i> 12:00 PM - 11:30 PM
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-utensils"></i> À la carte
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-user"></i> All ages welcome
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">From ₹ 2,200 <span style="font-size: 1rem; font-weight: normal;">/ person</span></div>
+                            <p class="price-note">Average meal for two</p>
+                            
+                            <a href="book_now.html" class="btn-book">Reserve Table</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Private Dining -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Private Dining">
+                            <span class="booking-badge">Exclusive</span>
+                        </div>
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Private Dining</h3>
+                            <p class="booking-card-description">Exclusive dining experiences tailored for intimate celebrations and special occasions.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-user"></i> Up to 10 Guests
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-chef-hat"></i> Personal Chef
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-wine-glass"></i> Wine Pairing
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 15,000 <span style="font-size: 1rem; font-weight: normal;">/ event</span></div>
+                            <p class="price-note">Minimum spend</p>
+                            
+                            <a href="book_now.html" class="btn-book">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spa & Wellness Category -->
+        <div class="booking-category" data-category="spa">
+            <h2 class="booking-category-title">Spa & Wellness</h2>
+            <div class="row">
+                <!-- Aromatherapy Massage -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Aromatherapy Massage">
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Aromatherapy Massage</h3>
+                            <p class="booking-card-description">A soothing massage using essential oils to enhance physical and emotional well-being.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-clock"></i> 60 minutes
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-spa"></i> Essential Oils
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-user"></i> For one person
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 4,500</div>
+                            <p class="price-note">Inclusive of taxes</p>
+                            
+                            <a href="book_now.html" class="btn-book">Book Treatment</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hot Stone Massage -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <img src="https://images.unsplash.com/photo-1591348278863-a8fb3887e2aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Hot Stone Massage">
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Hot Stone Massage</h3>
+                            <p class="booking-card-description">Heated stones are used to massage and relax muscles, providing deep relaxation.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-clock"></i> 75 minutes
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-spa"></i> Hot Stones
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-user"></i> For one person
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 5,200</div>
+                            <p class="price-note">Inclusive of taxes</p>
+                            
+                            <a href="book_now.html" class="btn-book">Book Treatment</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Couples Retreat -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Couples Retreat">
+                            <span class="booking-badge">Popular</span>
+                        </div>
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Couples Retreat</h3>
+                            <p class="booking-card-description">A romantic spa experience for couples with side-by-side treatments.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-clock"></i> 2.5 hours
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-spa"></i> Multiple Treatments
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-user-friends"></i> For two people
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 18,000</div>
+                            <p class="price-note">Inclusive of taxes</p>
+                            
+                            <a href="book_now.html" class="btn-book">Book Package</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meetings & Events Category -->
+        <div class="booking-category" data-category="events">
+            <h2 class="booking-category-title">Meetings & Events</h2>
+            <div class="row">
+                <!-- Grand Ballroom -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Grand Ballroom">
+                            <span class="booking-badge">Popular</span>
+                        </div>
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Grand Ballroom</h3>
+                            <p class="booking-card-description">An elegant space for large gatherings, weddings, and galas with customizable layouts.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-users"></i> Up to 500 Guests
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-ruler-combined"></i> 650 m²
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-chalkboard"></i> HD Projection
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 150,000 <span style="font-size: 1rem; font-weight: normal;">/ event</span></div>
+                            <p class="price-note">Minimum spend</p>
+                            
+                            <a href="book_now.html" class="btn-book">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Executive Boardroom -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Executive Boardroom">
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Executive Boardroom</h3>
+                            <p class="booking-card-description">A sophisticated space for executive meetings and decision-making with premium technology.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-users"></i> Up to 24 Guests
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-ruler-combined"></i> 85 m²
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-video"></i> Video Conferencing
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 25,000 <span style="font-size: 1rem; font-weight: normal;">/ day</span></div>
+                            <p class="price-note">Inclusive of basic AV setup</p>
+                            
+                            <a href="book_now.html" class="btn-book">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Garden Pavilion -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Garden Pavilion">
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Garden Pavilion</h3>
+                            <p class="booking-card-description">A beautiful outdoor venue surrounded by lush gardens, perfect for ceremonies and receptions.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-users"></i> Up to 200 Guests
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-leaf"></i> Garden Setting
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-utensils"></i> Catering Options
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 80,000 <span style="font-size: 1rem; font-weight: normal;">/ event</span></div>
+                            <p class="price-note">Venue rental only</p>
+                            
+                            <a href="book_now.html" class="btn-book">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Offers Category -->
+        <div class="booking-category" data-category="offers">
+            <h2 class="booking-category-title">Special Offers</h2>
+            <div class="row">
+                <!-- Advance Purchase Offer -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Advance Purchase Offer">
+                            <span class="booking-badge">Save 25%</span>
+                        </div>
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Advance Purchase Offer</h3>
+                            <p class="booking-card-description">Book in advance and enjoy significant savings on your stay with our best available rates.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-percentage"></i> 25% discount
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-utensils"></i> Daily breakfast
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-gift"></i> Welcome drink
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">From ₹ 6,375 <span style="font-size: 1rem; font-weight: normal;">/ night</span></div>
+                            <p class="price-note">Exclusive of taxes</p>
+                            
+                            <a href="book_now.html" class="btn-book">Book Offer</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Spa Escape Package -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Spa Escape Package">
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Spa Escape Package</h3>
+                            <p class="booking-card-description">Rejuvenate your mind, body, and spirit with our exclusive spa package.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-bed"></i> Luxury accommodation
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-spa"></i> 60-minute treatment
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-utensils"></i> Daily breakfast
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 12,500 <span style="font-size: 1rem; font-weight: normal;">/ night</span></div>
+                            <p class="price-note">Inclusive of taxes</p>
+                            
+                            <a href="book_now.html" class="btn-book">Book Package</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Romantic Getaway -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=                            <span class="booking-badge">Romantic</span>
+                        </div>
+                        <div class="booking-card-content">
+                            <h3 class="booking-card-title">Romantic Getaway</h3>
+                            <p class="booking-card-description">Celebrate love with a romantic stay, special dinner, and curated surprises.</p>
+                            
+                            <div class="booking-features">
+                                <div class="booking-feature">
+                                    <i class="fas fa-bed"></i> Luxury Suite
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-utensils"></i> Candlelight dinner
+                                </div>
+                                <div class="booking-feature">
+                                    <i class="fas fa-champagne-glasses"></i> Wine & Cake
+                                </div>
+                            </div>
+                            
+                            <div class="booking-price">₹ 20,000 <span style="font-size: 1rem; font-weight: normal;">/ night</span></div>
+                            <p class="price-note">Inclusive of taxes</p>
+                            
+                            <a href="book_now.html" class="btn-book">Book Package</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end booking-container -->
+
+    <!-- Footer -->
+    <footer class="text-center py-4" style="background: var(--primary-blue); color: white;">
+        <p class="mb-1">&copy; 2025 Le Méridien Ahmedabad. All Rights Reserved.</p>
+        <p class="small">Crafted with <i class="fas fa-heart text-danger"></i> for unforgettable experiences</p>
+    </footer>
+
+    <!-- Bootstrap JS + Custom Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const categories = document.querySelectorAll('.booking-category');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.getAttribute('data-filter');
+
+                // update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // show/hide categories
+                categories.forEach(category => {
+                    if (filter === 'all' || category.getAttribute('data-category') === filter) {
+                        category.style.display = 'block';
+                    } else {
+                        category.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
